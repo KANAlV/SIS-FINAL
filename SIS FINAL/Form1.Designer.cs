@@ -30,6 +30,7 @@
         {
             tabControl1 = new TabControl();
             general = new TabPage();
+            label30 = new Label();
             groupBox2 = new GroupBox();
             label27 = new Label();
             label28 = new Label();
@@ -79,7 +80,10 @@
             tabPage4 = new TabPage();
             tabControl2 = new TabControl();
             tabPage1 = new TabPage();
+            button4 = new Button();
+            button1 = new Button();
             tabPage2 = new TabPage();
+            button3 = new Button();
             dataGridView4 = new DataGridView();
             button2 = new Button();
             textBox2 = new TextBox();
@@ -87,6 +91,7 @@
             gs_index = new DataGridViewTextBoxColumn();
             g_s = new DataGridViewTextBoxColumn();
             sec_name = new DataGridViewTextBoxColumn();
+            tabPage5 = new TabPage();
             tabControl1.SuspendLayout();
             general.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -116,6 +121,7 @@
             // 
             // general
             // 
+            general.Controls.Add(label30);
             general.Controls.Add(groupBox2);
             general.Controls.Add(groupBox1);
             general.Location = new Point(4, 24);
@@ -125,6 +131,19 @@
             general.TabIndex = 0;
             general.Text = "General";
             general.UseVisualStyleBackColor = true;
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Font = new Font("Segoe UI", 9F);
+            label30.Location = new Point(6, 340);
+            label30.Name = "label30";
+            label30.RightToLeft = RightToLeft.Yes;
+            label30.Size = new Size(44, 15);
+            label30.TabIndex = 17;
+            label30.Text = "label30";
+            label30.TextAlign = ContentAlignment.TopRight;
+            label30.Visible = false;
             // 
             // groupBox2
             // 
@@ -143,9 +162,9 @@
             groupBox2.Controls.Add(label17);
             groupBox2.Controls.Add(label16);
             groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox2.Location = new Point(6, 188);
+            groupBox2.Location = new Point(6, 187);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(301, 164);
+            groupBox2.Size = new Size(301, 151);
             groupBox2.TabIndex = 14;
             groupBox2.TabStop = false;
             groupBox2.Text = "Guardian Info";
@@ -154,7 +173,7 @@
             // 
             label27.AutoSize = true;
             label27.Font = new Font("Segoe UI", 9F);
-            label27.Location = new Point(80, 140);
+            label27.Location = new Point(80, 130);
             label27.Name = "label27";
             label27.Size = new Size(127, 15);
             label27.TabIndex = 24;
@@ -166,7 +185,7 @@
             label28.AutoSize = true;
             label28.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             label28.ImageAlign = ContentAlignment.MiddleRight;
-            label28.Location = new Point(35, 140);
+            label28.Location = new Point(35, 130);
             label28.Name = "label28";
             label28.Size = new Size(39, 15);
             label28.TabIndex = 23;
@@ -318,7 +337,7 @@
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(label6);
             groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox1.Location = new Point(6, 7);
+            groupBox1.Location = new Point(6, 6);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(301, 175);
             groupBox1.TabIndex = 13;
@@ -360,9 +379,11 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox1.Location = new Point(6, 22);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(100, 100);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -533,6 +554,7 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { student_index, StudentNumber, Surname, FirstName, Grd_Sec, Section, dateAdded });
             dataGridView1.Location = new Point(6, 37);
@@ -540,6 +562,7 @@
             dataGridView1.ReadOnly = true;
             dataGridView1.Size = new Size(446, 355);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // student_index
             // 
@@ -615,6 +638,7 @@
             // 
             tabControl2.Controls.Add(tabPage1);
             tabControl2.Controls.Add(tabPage2);
+            tabControl2.Controls.Add(tabPage5);
             tabControl2.Location = new Point(0, 12);
             tabControl2.Name = "tabControl2";
             tabControl2.SelectedIndex = 0;
@@ -623,6 +647,8 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(button4);
+            tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(textBox1);
             tabPage1.Controls.Add(dataGridView1);
             tabPage1.Controls.Add(tabControl1);
@@ -634,8 +660,29 @@
             tabPage1.Text = "Student Info";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // button4
+            // 
+            button4.Location = new Point(154, 8);
+            button4.Name = "button4";
+            button4.Size = new Size(24, 23);
+            button4.TabIndex = 4;
+            button4.Text = "↻";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(377, 8);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 3;
+            button1.Text = "Enroll";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(button3);
             tabPage2.Controls.Add(dataGridView4);
             tabPage2.Controls.Add(button2);
             tabPage2.Controls.Add(textBox2);
@@ -645,8 +692,18 @@
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(792, 405);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            tabPage2.Text = "Schedule";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(118, 6);
+            button3.Name = "button3";
+            button3.Size = new Size(24, 23);
+            button3.TabIndex = 7;
+            button3.Text = "↻";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // dataGridView4
             // 
@@ -671,7 +728,7 @@
             textBox2.ForeColor = SystemColors.GrayText;
             textBox2.Location = new Point(8, 6);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(134, 23);
+            textBox2.Size = new Size(104, 23);
             textBox2.TabIndex = 4;
             textBox2.Text = "Search...";
             textBox2.Click += textBox2_Click;
@@ -709,6 +766,16 @@
             sec_name.Name = "sec_name";
             sec_name.ReadOnly = true;
             // 
+            // tabPage5
+            // 
+            tabPage5.Location = new Point(4, 24);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new Padding(3);
+            tabPage5.Size = new Size(792, 405);
+            tabPage5.TabIndex = 2;
+            tabPage5.Text = "Subjects";
+            tabPage5.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -717,9 +784,11 @@
             ClientSize = new Size(800, 450);
             Controls.Add(tabControl2);
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             tabControl1.ResumeLayout(false);
             general.ResumeLayout(false);
+            general.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -799,5 +868,10 @@
         private DataGridViewTextBoxColumn g_s;
         private DataGridViewTextBoxColumn sec_name;
         private DataGridView dataGridView4;
+        private TabPage tabPage5;
+        private Button button1;
+        private Button button3;
+        private Button button4;
+        private Label label30;
     }
 }

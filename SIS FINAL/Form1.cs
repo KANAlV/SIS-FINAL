@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SIS_FINAL
 {
@@ -10,6 +11,7 @@ namespace SIS_FINAL
         {
             InitializeComponent();
             sectionQuery();
+            studentQuery();
             dataGridView1.RowHeadersVisible = false;
             dataGridView2.RowHeadersVisible = false;
             dataGridView3.RowHeadersVisible = false;
@@ -185,10 +187,187 @@ namespace SIS_FINAL
             }
 
         }
+        private void studentQuery()
+        {
+            dataGridView1.Rows.Clear();
+            string query = @"
+                SELECT 
+                    students.student_pk, students.students_no, students.surname, students.first_name, students.gender, students.enrolled, students.dateAdded,
+                    `grade-section`.`grade-sec`, `grade-section`.`section_name`
+                FROM students
+                LEFT JOIN `grade-section` ON students.`grade-sec_pk` = `grade-section`.`grade-section_pk`
+            ";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            dataGridView1.Rows.Clear(); // Clear existing rows before adding new
+
+                            while (reader.Read())
+                            {
+                                string stuPK = reader["student_pk"].ToString();
+                                string stuNo = reader["students_no"].ToString();
+                                string sur = reader["surname"].ToString();
+                                string fn = reader["first_name"].ToString();
+                                string gndr = reader["gender"].ToString();
+
+                                // Grade-section fields may be null if no matching record
+                                string grdSec = reader["grade-sec"] == DBNull.Value ? "N/a" : reader["grade-sec"].ToString();
+
+                                string status = reader["enrolled"].ToString();
+                                string added = reader["dateAdded"].ToString();
+
+                                dataGridView1.Rows.Add(stuPK, status, stuNo, sur, fn, grdSec, added);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             sectionQuery();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            sectionQuery();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form3 enrol = new Form3();
+            enrol.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            studentQuery();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+                // Assuming PK is in the first column (index 0)
+                var pkValue = row.Cells[0].Value;
+                if (pkValue != null)
+                {
+                    string primaryKey = pkValue.ToString();
+                    string query = @$"SELECT
+        students.student_pk,
+        students.students_no,
+        students.photo,
+        students.surname,
+        students.first_name,
+        students.middle_name,
+        students.suffix,
+        students.gender,
+        students.enrolled,
+        students.dateAdded,
+        `grade-section`.`grade-sec`,
+        `grade-section`.`section_name`,
+        guardian.surname AS guardian_surname,
+        guardian.first_name AS guardian_first_name,
+        guardian.middle_name AS guardian_middle_name,
+        guardian.suffix AS guardian_suffix,
+        guardian.gender AS guardian_gender,
+        guardian.relationship,
+        guardian.phone,
+        guardian.email
+    FROM students
+    LEFT JOIN `grade-section` ON students.`grade-sec_pk` = `grade-section`.`grade-section_pk`
+    LEFT JOIN guardian ON students.student_pk = guardian.students_pk
+    WHERE students.student_pk = {primaryKey}";
+
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            connection.Open();
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    // student data
+                                    string stuPK = reader["student_pk"].ToString();
+                                    label24.Text = reader["students_no"].ToString();
+                                    label4.Text = reader["surname"].ToString();
+                                    label5.Text = reader["first_name"].ToString();
+                                    label6.Text = reader["middle_name"].ToString();
+                                    label8.Text = reader["suffix"].ToString();
+                                    label10.Text = reader["gender"].ToString();
+                                    label12.Text = reader["grade-sec"] == DBNull.Value ? "N/a" : reader["grade-sec"].ToString();
+                                    label29.Text = reader["enrolled"].ToString();
+                                    label30.Text = $"Added: {reader["dateAdded"].ToString()}";
+
+                                    // guardian data
+                                    label16.Text = reader["guardian_surname"].ToString();
+                                    label17.Text = reader["guardian_first_name"].ToString();
+                                    label18.Text = reader["guardian_middle_name"].ToString();
+                                    label19.Text = reader["guardian_gender"].ToString();
+                                    label21.Text = reader["relationship"].ToString();
+                                    label25.Text = reader["phone"].ToString();
+                                    label27.Text = reader["email"].ToString();
+
+                                    // Show labels
+                                    label4.Visible = true;
+                                    label5.Visible = true;
+                                    label6.Visible = true;
+                                    label8.Visible = true;
+                                    label10.Visible = true;
+                                    label12.Visible = true;
+                                    label29.Visible = true;
+                                    label30.Visible = true;
+                                    label16.Visible = true;
+                                    label17.Visible = true;
+                                    label18.Visible = true;
+                                    label19.Visible = true;
+                                    label21.Visible = true;
+                                    label25.Visible = true;
+                                    label27.Visible = true;
+                                    label24.Visible = true;
+
+                                    // === Image loading ===
+                                    if (reader["photo"] != DBNull.Value)
+                                    {
+                                        byte[] photoBytes = (byte[])reader["photo"];
+                                        using (var ms = new MemoryStream(photoBytes))
+                                        {
+                                            pictureBox1.Image = Image.FromStream(ms);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        pictureBox1.Image = null; // clear if no photo
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error: " + ex.Message);
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

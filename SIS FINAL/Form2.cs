@@ -60,6 +60,7 @@ namespace SIS_FINAL
                     }
                 }
             }
+            else { MessageBox.Show("Not all required fields are filled"); }
         }
     }
 }
