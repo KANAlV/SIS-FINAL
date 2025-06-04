@@ -13,6 +13,7 @@ namespace SIS_FINAL
             sectionQuery();
             studentQuery();
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.MultiSelect = false;
             dataGridView2.RowHeadersVisible = false;
             dataGridView3.RowHeadersVisible = false;
             dataGridView4.RowHeadersVisible = false;
@@ -260,6 +261,7 @@ namespace SIS_FINAL
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
@@ -270,30 +272,30 @@ namespace SIS_FINAL
                 {
                     string primaryKey = pkValue.ToString();
                     string query = @$"SELECT
-        students.student_pk,
-        students.students_no,
-        students.photo,
-        students.surname,
-        students.first_name,
-        students.middle_name,
-        students.suffix,
-        students.gender,
-        students.enrolled,
-        students.dateAdded,
-        `grade-section`.`grade-sec`,
-        `grade-section`.`section_name`,
-        guardian.surname AS guardian_surname,
-        guardian.first_name AS guardian_first_name,
-        guardian.middle_name AS guardian_middle_name,
-        guardian.suffix AS guardian_suffix,
-        guardian.gender AS guardian_gender,
-        guardian.relationship,
-        guardian.phone,
-        guardian.email
-    FROM students
-    LEFT JOIN `grade-section` ON students.`grade-sec_pk` = `grade-section`.`grade-section_pk`
-    LEFT JOIN guardian ON students.student_pk = guardian.students_pk
-    WHERE students.student_pk = {primaryKey}";
+                        students.student_pk,
+                        students.students_no,
+                        students.photo,
+                        students.surname,
+                        students.first_name,
+                        students.middle_name,
+                        students.suffix,
+                        students.gender,
+                        students.enrolled,
+                        students.dateAdded,
+                        `grade-section`.`grade-sec`,
+                        `grade-section`.`section_name`,
+                        guardian.surname AS guardian_surname,
+                        guardian.first_name AS guardian_first_name,
+                        guardian.middle_name AS guardian_middle_name,
+                        guardian.suffix AS guardian_suffix,
+                        guardian.gender AS guardian_gender,
+                        guardian.relationship,
+                        guardian.phone,
+                        guardian.email
+                    FROM students
+                    LEFT JOIN `grade-section` ON students.`grade-sec_pk` = `grade-section`.`grade-section_pk`
+                    LEFT JOIN guardian ON students.student_pk = guardian.students_pk
+                    WHERE students.student_pk = {primaryKey}";
 
                     using (MySqlConnection connection = new MySqlConnection(connectionString))
                     using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -307,6 +309,7 @@ namespace SIS_FINAL
                                 {
                                     // student data
                                     string stuPK = reader["student_pk"].ToString();
+                                    label31.Text = reader["student_pk"].ToString();
                                     label24.Text = reader["students_no"].ToString();
                                     label4.Text = reader["surname"].ToString();
                                     label5.Text = reader["first_name"].ToString();
@@ -327,22 +330,10 @@ namespace SIS_FINAL
                                     label27.Text = reader["email"].ToString();
 
                                     // Show labels
-                                    label4.Visible = true;
-                                    label5.Visible = true;
-                                    label6.Visible = true;
-                                    label8.Visible = true;
-                                    label10.Visible = true;
-                                    label12.Visible = true;
-                                    label29.Visible = true;
+                                    groupBox1.Visible = true;
+                                    groupBox2.Visible = true;
                                     label30.Visible = true;
-                                    label16.Visible = true;
-                                    label17.Visible = true;
-                                    label18.Visible = true;
-                                    label19.Visible = true;
-                                    label21.Visible = true;
-                                    label25.Visible = true;
-                                    label27.Visible = true;
-                                    label24.Visible = true;
+                                    button5.Visible = true;
 
                                     // === Image loading ===
                                     if (reader["photo"] != DBNull.Value)
@@ -368,6 +359,12 @@ namespace SIS_FINAL
                 }
 
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form4 editStu = new Form4(label31.Text);
+            editStu.Show();
         }
     }
 }

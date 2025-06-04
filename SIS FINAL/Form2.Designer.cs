@@ -160,7 +160,7 @@
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Form2";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form2";
+            Text = "Add Grade & Section";
             panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

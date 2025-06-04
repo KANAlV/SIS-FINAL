@@ -30,6 +30,7 @@
         {
             tabControl1 = new TabControl();
             general = new TabPage();
+            button5 = new Button();
             label30 = new Label();
             groupBox2 = new GroupBox();
             label27 = new Label();
@@ -92,6 +93,7 @@
             g_s = new DataGridViewTextBoxColumn();
             sec_name = new DataGridViewTextBoxColumn();
             tabPage5 = new TabPage();
+            label31 = new Label();
             tabControl1.SuspendLayout();
             general.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -121,6 +123,8 @@
             // 
             // general
             // 
+            general.Controls.Add(label31);
+            general.Controls.Add(button5);
             general.Controls.Add(label30);
             general.Controls.Add(groupBox2);
             general.Controls.Add(groupBox1);
@@ -132,11 +136,22 @@
             general.Text = "General";
             general.UseVisualStyleBackColor = true;
             // 
+            // button5
+            // 
+            button5.Location = new Point(6, 332);
+            button5.Name = "button5";
+            button5.Size = new Size(66, 23);
+            button5.TabIndex = 5;
+            button5.Text = "Edit";
+            button5.UseVisualStyleBackColor = true;
+            button5.Visible = false;
+            button5.Click += button5_Click;
+            // 
             // label30
             // 
             label30.AutoSize = true;
             label30.Font = new Font("Segoe UI", 9F);
-            label30.Location = new Point(6, 340);
+            label30.Location = new Point(78, 336);
             label30.Name = "label30";
             label30.RightToLeft = RightToLeft.Yes;
             label30.Size = new Size(44, 15);
@@ -164,28 +179,28 @@
             groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox2.Location = new Point(6, 187);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(301, 151);
+            groupBox2.Size = new Size(301, 139);
             groupBox2.TabIndex = 14;
             groupBox2.TabStop = false;
             groupBox2.Text = "Guardian Info";
+            groupBox2.Visible = false;
             // 
             // label27
             // 
             label27.AutoSize = true;
             label27.Font = new Font("Segoe UI", 9F);
-            label27.Location = new Point(80, 130);
+            label27.Location = new Point(80, 118);
             label27.Name = "label27";
             label27.Size = new Size(127, 15);
             label27.TabIndex = 24;
             label27.Text = "username@gmail.com";
-            label27.Visible = false;
             // 
             // label28
             // 
             label28.AutoSize = true;
             label28.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             label28.ImageAlign = ContentAlignment.MiddleRight;
-            label28.Location = new Point(35, 130);
+            label28.Location = new Point(35, 118);
             label28.Name = "label28";
             label28.Size = new Size(39, 15);
             label28.TabIndex = 23;
@@ -195,19 +210,18 @@
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Segoe UI", 9F);
-            label25.Location = new Point(80, 110);
+            label25.Location = new Point(80, 98);
             label25.Name = "label25";
             label25.Size = new Size(73, 15);
             label25.TabIndex = 22;
             label25.Text = "09618539676";
-            label25.Visible = false;
             // 
             // label26
             // 
             label26.AutoSize = true;
             label26.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             label26.ImageAlign = ContentAlignment.MiddleRight;
-            label26.Location = new Point(8, 110);
+            label26.Location = new Point(8, 98);
             label26.Name = "label26";
             label26.Size = new Size(66, 15);
             label26.TabIndex = 21;
@@ -217,18 +231,17 @@
             // 
             label21.AutoSize = true;
             label21.Font = new Font("Segoe UI", 9F);
-            label21.Location = new Point(208, 76);
+            label21.Location = new Point(208, 69);
             label21.Name = "label21";
             label21.Size = new Size(44, 15);
             label21.TabIndex = 20;
             label21.Text = "label21";
-            label21.Visible = false;
             // 
             // label22
             // 
             label22.AutoSize = true;
             label22.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label22.Location = new Point(127, 76);
+            label22.Location = new Point(127, 69);
             label22.Name = "label22";
             label22.Size = new Size(75, 15);
             label22.TabIndex = 19;
@@ -238,12 +251,11 @@
             // 
             label19.AutoSize = true;
             label19.Font = new Font("Segoe UI", 9F);
-            label19.Location = new Point(62, 76);
+            label19.Location = new Point(62, 69);
             label19.Name = "label19";
             label19.Size = new Size(44, 15);
             label19.TabIndex = 14;
             label19.Text = "label19";
-            label19.Visible = false;
             // 
             // label13
             // 
@@ -259,7 +271,7 @@
             // 
             label20.AutoSize = true;
             label20.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label20.Location = new Point(8, 76);
+            label20.Location = new Point(8, 69);
             label20.Name = "label20";
             label20.Size = new Size(48, 15);
             label20.TabIndex = 13;
@@ -284,7 +296,6 @@
             label18.Size = new Size(40, 15);
             label18.TabIndex = 18;
             label18.Text = "Sibulo";
-            label18.Visible = false;
             // 
             // label15
             // 
@@ -305,7 +316,6 @@
             label17.Size = new Size(67, 15);
             label17.TabIndex = 17;
             label17.Text = "Ivan Winzle";
-            label17.Visible = false;
             // 
             // label16
             // 
@@ -316,7 +326,6 @@
             label16.Size = new Size(62, 15);
             label16.TabIndex = 16;
             label16.Text = "Diocampo";
-            label16.Visible = false;
             // 
             // groupBox1
             // 
@@ -343,6 +352,7 @@
             groupBox1.TabIndex = 13;
             groupBox1.TabStop = false;
             groupBox1.Text = "Student Info";
+            groupBox1.Visible = false;
             // 
             // label29
             // 
@@ -354,7 +364,6 @@
             label29.TabIndex = 15;
             label29.Text = "label29";
             label29.TextAlign = ContentAlignment.MiddleCenter;
-            label29.Visible = false;
             // 
             // label24
             // 
@@ -365,7 +374,6 @@
             label24.Size = new Size(44, 15);
             label24.TabIndex = 14;
             label24.Text = "label24";
-            label24.Visible = false;
             // 
             // label23
             // 
@@ -396,7 +404,6 @@
             label12.Size = new Size(50, 15);
             label12.TabIndex = 12;
             label12.Text = "G00 - 00";
-            label12.Visible = false;
             // 
             // label1
             // 
@@ -437,7 +444,6 @@
             label10.Size = new Size(44, 15);
             label10.TabIndex = 10;
             label10.Text = "label10";
-            label10.Visible = false;
             // 
             // label3
             // 
@@ -468,7 +474,6 @@
             label4.Size = new Size(38, 15);
             label4.TabIndex = 4;
             label4.Text = "label4";
-            label4.Visible = false;
             // 
             // label8
             // 
@@ -479,7 +484,6 @@
             label8.Size = new Size(38, 15);
             label8.TabIndex = 8;
             label8.Text = "label8";
-            label8.Visible = false;
             // 
             // label5
             // 
@@ -490,7 +494,6 @@
             label5.Size = new Size(38, 15);
             label5.TabIndex = 5;
             label5.Text = "label5";
-            label5.Visible = false;
             // 
             // label7
             // 
@@ -511,7 +514,6 @@
             label6.Size = new Size(38, 15);
             label6.TabIndex = 6;
             label6.Text = "label6";
-            label6.Visible = false;
             // 
             // schedule
             // 
@@ -776,6 +778,19 @@
             tabPage5.Text = "Subjects";
             tabPage5.UseVisualStyleBackColor = true;
             // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Font = new Font("Segoe UI", 9F);
+            label31.Location = new Point(260, 336);
+            label31.Name = "label31";
+            label31.RightToLeft = RightToLeft.Yes;
+            label31.Size = new Size(44, 15);
+            label31.TabIndex = 18;
+            label31.Text = "label31";
+            label31.TextAlign = ContentAlignment.TopRight;
+            label31.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -785,7 +800,7 @@
             Controls.Add(tabControl2);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Student Information System";
             tabControl1.ResumeLayout(false);
             general.ResumeLayout(false);
             general.PerformLayout();
@@ -873,5 +888,7 @@
         private Button button3;
         private Button button4;
         private Label label30;
+        private Button button5;
+        private Label label31;
     }
 }

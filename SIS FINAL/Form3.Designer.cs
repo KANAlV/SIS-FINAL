@@ -66,9 +66,11 @@
             openFileDialog1 = new OpenFileDialog();
             comboBox4 = new ComboBox();
             label15 = new Label();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label23
@@ -242,7 +244,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(713, 340);
+            button1.Location = new Point(713, 7);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 39;
@@ -423,7 +425,7 @@
             comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox4.FormattingEnabled = true;
             comboBox4.Items.AddRange(new object[] { "Enrolled", "Pending", "Not Enrolled", "Waitlisted", "Transferred", "Dropped", "Suspended", "Expelled" });
-            comboBox4.Location = new Point(602, 340);
+            comboBox4.Location = new Point(602, 7);
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(99, 23);
             comboBox4.TabIndex = 43;
@@ -432,32 +434,43 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label15.Location = new Point(488, 343);
+            label15.ForeColor = SystemColors.ControlLight;
+            label15.Location = new Point(488, 10);
             label15.Name = "label15";
             label15.Size = new Size(109, 15);
             label15.TabIndex = 42;
             label15.Text = "Enrollment Status:*";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(4, 108, 179);
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(comboBox4);
+            panel1.Controls.Add(label15);
+            panel1.Location = new Point(0, 340);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(805, 37);
+            panel1.TabIndex = 44;
             // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 375);
-            Controls.Add(comboBox4);
-            Controls.Add(label15);
+            Controls.Add(panel1);
             Controls.Add(groupBox2);
-            Controls.Add(button1);
             Controls.Add(groupBox1);
             Name = "Form3";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form3";
+            Text = "Add Student";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -499,5 +512,6 @@
         private OpenFileDialog openFileDialog1;
         private ComboBox comboBox4;
         private Label label15;
+        private Panel panel1;
     }
 }
