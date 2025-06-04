@@ -90,7 +90,7 @@
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 39;
-            button1.Text = "Save";
+            button1.Text = "Update";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 

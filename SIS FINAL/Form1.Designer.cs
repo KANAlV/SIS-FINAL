@@ -30,6 +30,7 @@
         {
             tabControl1 = new TabControl();
             general = new TabPage();
+            label31 = new Label();
             button5 = new Button();
             label30 = new Label();
             groupBox2 = new GroupBox();
@@ -67,23 +68,31 @@
             schedule = new TabPage();
             dataGridView2 = new DataGridView();
             grades = new TabPage();
-            disc_records = new TabPage();
+            Discip_Rec = new TabPage();
             dataGridView1 = new DataGridView();
-            student_index = new DataGridViewTextBoxColumn();
-            StudentNumber = new DataGridViewTextBoxColumn();
-            Surname = new DataGridViewTextBoxColumn();
-            FirstName = new DataGridViewTextBoxColumn();
-            Grd_Sec = new DataGridViewTextBoxColumn();
-            Section = new DataGridViewTextBoxColumn();
-            dateAdded = new DataGridViewTextBoxColumn();
             textBox1 = new TextBox();
             tabPage3 = new TabPage();
             tabPage4 = new TabPage();
             tabControl2 = new TabControl();
             tabPage1 = new TabPage();
+            label37 = new Label();
+            label36 = new Label();
+            linkLabel4 = new LinkLabel();
+            linkLabel5 = new LinkLabel();
+            linkLabel6 = new LinkLabel();
+            linkLabel3 = new LinkLabel();
+            linkLabel2 = new LinkLabel();
+            linkLabel1 = new LinkLabel();
+            textBox3 = new TextBox();
             button4 = new Button();
             button1 = new Button();
             tabPage2 = new TabPage();
+            dataGridView5 = new DataGridView();
+            button6 = new Button();
+            label34 = new Label();
+            label35 = new Label();
+            label33 = new Label();
+            label32 = new Label();
             button3 = new Button();
             dataGridView4 = new DataGridView();
             button2 = new Button();
@@ -93,7 +102,14 @@
             g_s = new DataGridViewTextBoxColumn();
             sec_name = new DataGridViewTextBoxColumn();
             tabPage5 = new TabPage();
-            label31 = new Label();
+            student_index = new DataGridViewTextBoxColumn();
+            stuStatus = new DataGridViewTextBoxColumn();
+            StudentNumber = new DataGridViewTextBoxColumn();
+            Surname = new DataGridViewTextBoxColumn();
+            FirstName = new DataGridViewTextBoxColumn();
+            Grd_Sec = new DataGridViewTextBoxColumn();
+            Section = new DataGridViewTextBoxColumn();
+            dateAdded = new DataGridViewTextBoxColumn();
             tabControl1.SuspendLayout();
             general.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -105,6 +121,7 @@
             tabControl2.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
             SuspendLayout();
@@ -114,7 +131,7 @@
             tabControl1.Controls.Add(general);
             tabControl1.Controls.Add(schedule);
             tabControl1.Controls.Add(grades);
-            tabControl1.Controls.Add(disc_records);
+            tabControl1.Controls.Add(Discip_Rec);
             tabControl1.Location = new Point(461, 6);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -135,6 +152,19 @@
             general.TabIndex = 0;
             general.Text = "General";
             general.UseVisualStyleBackColor = true;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Font = new Font("Segoe UI", 9F);
+            label31.Location = new Point(260, 336);
+            label31.Name = "label31";
+            label31.RightToLeft = RightToLeft.Yes;
+            label31.Size = new Size(44, 15);
+            label31.TabIndex = 18;
+            label31.Text = "label31";
+            label31.TextAlign = ContentAlignment.TopRight;
+            label31.Visible = false;
             // 
             // button5
             // 
@@ -198,11 +228,11 @@
             // label28
             // 
             label28.AutoSize = true;
-            label28.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label28.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label28.ImageAlign = ContentAlignment.MiddleRight;
             label28.Location = new Point(35, 118);
             label28.Name = "label28";
-            label28.Size = new Size(39, 15);
+            label28.Size = new Size(38, 13);
             label28.TabIndex = 23;
             label28.Text = "Email:";
             // 
@@ -219,11 +249,11 @@
             // label26
             // 
             label26.AutoSize = true;
-            label26.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label26.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label26.ImageAlign = ContentAlignment.MiddleRight;
             label26.Location = new Point(8, 98);
             label26.Name = "label26";
-            label26.Size = new Size(66, 15);
+            label26.Size = new Size(66, 13);
             label26.TabIndex = 21;
             label26.Text = "Phone No.:";
             // 
@@ -240,10 +270,10 @@
             // label22
             // 
             label22.AutoSize = true;
-            label22.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label22.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label22.Location = new Point(127, 69);
             label22.Name = "label22";
-            label22.Size = new Size(75, 15);
+            label22.Size = new Size(75, 13);
             label22.TabIndex = 19;
             label22.Text = "Relationship:";
             // 
@@ -260,30 +290,30 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label13.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label13.Location = new Point(8, 24);
             label13.Name = "label13";
-            label13.Size = new Size(58, 15);
+            label13.Size = new Size(56, 13);
             label13.TabIndex = 13;
             label13.Text = "Surname:";
             // 
             // label20
             // 
             label20.AutoSize = true;
-            label20.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label20.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label20.Location = new Point(8, 69);
             label20.Name = "label20";
-            label20.Size = new Size(48, 15);
+            label20.Size = new Size(48, 13);
             label20.TabIndex = 13;
             label20.Text = "Gender:";
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label14.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label14.Location = new Point(100, 24);
             label14.Name = "label14";
-            label14.Size = new Size(67, 15);
+            label14.Size = new Size(66, 13);
             label14.TabIndex = 14;
             label14.Text = "First Name:";
             // 
@@ -300,10 +330,10 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label15.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label15.Location = new Point(206, 24);
             label15.Name = "label15";
-            label15.Size = new Size(82, 15);
+            label15.Size = new Size(81, 13);
             label15.TabIndex = 15;
             label15.Text = "Middle Name:";
             // 
@@ -357,10 +387,10 @@
             // label29
             // 
             label29.AutoSize = true;
-            label29.Font = new Font("Segoe UI", 9F);
+            label29.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label29.Location = new Point(127, 157);
             label29.Name = "label29";
-            label29.Size = new Size(44, 15);
+            label29.Size = new Size(44, 13);
             label29.TabIndex = 15;
             label29.Text = "label29";
             label29.TextAlign = ContentAlignment.MiddleCenter;
@@ -378,16 +408,17 @@
             // label23
             // 
             label23.AutoSize = true;
-            label23.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label23.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label23.Location = new Point(118, 22);
             label23.Name = "label23";
-            label23.Size = new Size(69, 15);
+            label23.Size = new Size(68, 13);
             label23.TabIndex = 13;
             label23.Text = "Student no.";
             // 
             // pictureBox1
             // 
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Image = Properties.Resources.user;
             pictureBox1.Location = new Point(6, 22);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(100, 100);
@@ -408,30 +439,30 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label1.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label1.Location = new Point(118, 47);
             label1.Name = "label1";
-            label1.Size = new Size(58, 15);
+            label1.Size = new Size(56, 13);
             label1.TabIndex = 1;
             label1.Text = "Surname:";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label11.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label11.Location = new Point(140, 131);
             label11.Name = "label11";
-            label11.Size = new Size(86, 15);
+            label11.Size = new Size(84, 13);
             label11.TabIndex = 11;
             label11.Text = "Grade/Section:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label2.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label2.Location = new Point(118, 67);
             label2.Name = "label2";
-            label2.Size = new Size(67, 15);
+            label2.Size = new Size(66, 13);
             label2.TabIndex = 2;
             label2.Text = "First Name:";
             // 
@@ -448,20 +479,20 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label3.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label3.Location = new Point(118, 87);
             label3.Name = "label3";
-            label3.Size = new Size(82, 15);
+            label3.Size = new Size(81, 13);
             label3.TabIndex = 3;
             label3.Text = "Middle Name:";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label9.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label9.Location = new Point(8, 131);
             label9.Name = "label9";
-            label9.Size = new Size(48, 15);
+            label9.Size = new Size(48, 13);
             label9.TabIndex = 9;
             label9.Text = "Gender:";
             // 
@@ -498,10 +529,10 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label7.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
             label7.Location = new Point(118, 107);
             label7.Name = "label7";
-            label7.Size = new Size(41, 15);
+            label7.Size = new Size(40, 13);
             label7.TabIndex = 7;
             label7.Text = "Suffix:";
             // 
@@ -543,14 +574,14 @@
             grades.Text = "Grades";
             grades.UseVisualStyleBackColor = true;
             // 
-            // disc_records
+            // Discip_Rec
             // 
-            disc_records.Location = new Point(4, 24);
-            disc_records.Name = "disc_records";
-            disc_records.Size = new Size(310, 358);
-            disc_records.TabIndex = 3;
-            disc_records.Text = "Disc. Records";
-            disc_records.UseVisualStyleBackColor = true;
+            Discip_Rec.Location = new Point(4, 24);
+            Discip_Rec.Name = "Discip_Rec";
+            Discip_Rec.Size = new Size(310, 358);
+            Discip_Rec.TabIndex = 3;
+            Discip_Rec.Text = "Discip. Rec.";
+            Discip_Rec.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
             // 
@@ -558,56 +589,13 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { student_index, StudentNumber, Surname, FirstName, Grd_Sec, Section, dateAdded });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { student_index, stuStatus, StudentNumber, Surname, FirstName, Grd_Sec, Section, dateAdded });
             dataGridView1.Location = new Point(6, 37);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(446, 355);
+            dataGridView1.Size = new Size(446, 319);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
-            // 
-            // student_index
-            // 
-            student_index.HeaderText = "index";
-            student_index.Name = "student_index";
-            student_index.ReadOnly = true;
-            student_index.Visible = false;
-            // 
-            // StudentNumber
-            // 
-            StudentNumber.HeaderText = "Student No..";
-            StudentNumber.Name = "StudentNumber";
-            StudentNumber.ReadOnly = true;
-            // 
-            // Surname
-            // 
-            Surname.HeaderText = "Surname";
-            Surname.Name = "Surname";
-            Surname.ReadOnly = true;
-            // 
-            // FirstName
-            // 
-            FirstName.HeaderText = "First Name";
-            FirstName.Name = "FirstName";
-            FirstName.ReadOnly = true;
-            // 
-            // Grd_Sec
-            // 
-            Grd_Sec.HeaderText = "Grd & Sec";
-            Grd_Sec.Name = "Grd_Sec";
-            Grd_Sec.ReadOnly = true;
-            // 
-            // Section
-            // 
-            Section.HeaderText = "Section";
-            Section.Name = "Section";
-            Section.ReadOnly = true;
-            // 
-            // dateAdded
-            // 
-            dateAdded.HeaderText = "added";
-            dateAdded.Name = "dateAdded";
-            dateAdded.ReadOnly = true;
             // 
             // textBox1
             // 
@@ -649,6 +637,15 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(label37);
+            tabPage1.Controls.Add(label36);
+            tabPage1.Controls.Add(linkLabel4);
+            tabPage1.Controls.Add(linkLabel5);
+            tabPage1.Controls.Add(linkLabel6);
+            tabPage1.Controls.Add(linkLabel3);
+            tabPage1.Controls.Add(linkLabel2);
+            tabPage1.Controls.Add(linkLabel1);
+            tabPage1.Controls.Add(textBox3);
             tabPage1.Controls.Add(button4);
             tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(textBox1);
@@ -661,6 +658,127 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Student Info";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label37
+            // 
+            label37.AutoSize = true;
+            label37.Location = new Point(320, 366);
+            label37.Name = "label37";
+            label37.Size = new Size(16, 15);
+            label37.TabIndex = 14;
+            label37.Text = "...";
+            label37.Visible = false;
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(122, 366);
+            label36.Name = "label36";
+            label36.Size = new Size(16, 15);
+            label36.TabIndex = 13;
+            label36.Text = "...";
+            label36.Visible = false;
+            // 
+            // linkLabel4
+            // 
+            linkLabel4.Anchor = AnchorStyles.Right;
+            linkLabel4.AutoSize = true;
+            linkLabel4.LinkColor = SystemColors.WindowText;
+            linkLabel4.Location = new Point(172, 366);
+            linkLabel4.Name = "linkLabel4";
+            linkLabel4.RightToLeft = RightToLeft.Yes;
+            linkLabel4.Size = new Size(31, 15);
+            linkLabel4.TabIndex = 12;
+            linkLabel4.TabStop = true;
+            linkLabel4.Text = "0000";
+            linkLabel4.TextAlign = ContentAlignment.MiddleRight;
+            linkLabel4.Visible = false;
+            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
+            // 
+            // linkLabel5
+            // 
+            linkLabel5.Anchor = AnchorStyles.Right;
+            linkLabel5.AutoSize = true;
+            linkLabel5.LinkColor = SystemColors.WindowText;
+            linkLabel5.Location = new Point(135, 366);
+            linkLabel5.Name = "linkLabel5";
+            linkLabel5.RightToLeft = RightToLeft.Yes;
+            linkLabel5.Size = new Size(31, 15);
+            linkLabel5.TabIndex = 11;
+            linkLabel5.TabStop = true;
+            linkLabel5.Text = "0000";
+            linkLabel5.TextAlign = ContentAlignment.MiddleRight;
+            linkLabel5.Visible = false;
+            linkLabel5.LinkClicked += linkLabel5_LinkClicked;
+            // 
+            // linkLabel6
+            // 
+            linkLabel6.Anchor = AnchorStyles.Right;
+            linkLabel6.AutoSize = true;
+            linkLabel6.LinkColor = SystemColors.WindowText;
+            linkLabel6.Location = new Point(85, 366);
+            linkLabel6.Name = "linkLabel6";
+            linkLabel6.RightToLeft = RightToLeft.Yes;
+            linkLabel6.Size = new Size(31, 15);
+            linkLabel6.TabIndex = 10;
+            linkLabel6.TabStop = true;
+            linkLabel6.Text = "0000";
+            linkLabel6.TextAlign = ContentAlignment.MiddleRight;
+            linkLabel6.Visible = false;
+            linkLabel6.LinkClicked += linkLabel6_LinkClicked;
+            // 
+            // linkLabel3
+            // 
+            linkLabel3.Anchor = AnchorStyles.Left;
+            linkLabel3.AutoSize = true;
+            linkLabel3.LinkColor = SystemColors.WindowText;
+            linkLabel3.Location = new Point(342, 366);
+            linkLabel3.Name = "linkLabel3";
+            linkLabel3.Size = new Size(31, 15);
+            linkLabel3.TabIndex = 9;
+            linkLabel3.TabStop = true;
+            linkLabel3.Text = "0000";
+            linkLabel3.TextAlign = ContentAlignment.MiddleLeft;
+            linkLabel3.Visible = false;
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
+            // 
+            // linkLabel2
+            // 
+            linkLabel2.Anchor = AnchorStyles.Left;
+            linkLabel2.AutoSize = true;
+            linkLabel2.LinkColor = SystemColors.WindowText;
+            linkLabel2.Location = new Point(292, 366);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(31, 15);
+            linkLabel2.TabIndex = 8;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "0000";
+            linkLabel2.TextAlign = ContentAlignment.MiddleLeft;
+            linkLabel2.Visible = false;
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.Anchor = AnchorStyles.Left;
+            linkLabel1.AutoSize = true;
+            linkLabel1.LinkColor = SystemColors.WindowText;
+            linkLabel1.Location = new Point(255, 366);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(31, 15);
+            linkLabel1.TabIndex = 7;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "0000";
+            linkLabel1.TextAlign = ContentAlignment.MiddleLeft;
+            linkLabel1.Visible = false;
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(209, 362);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(40, 23);
+            textBox3.TabIndex = 6;
+            textBox3.TextAlign = HorizontalAlignment.Center;
             // 
             // button4
             // 
@@ -684,6 +802,12 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(dataGridView5);
+            tabPage2.Controls.Add(button6);
+            tabPage2.Controls.Add(label34);
+            tabPage2.Controls.Add(label35);
+            tabPage2.Controls.Add(label33);
+            tabPage2.Controls.Add(label32);
             tabPage2.Controls.Add(button3);
             tabPage2.Controls.Add(dataGridView4);
             tabPage2.Controls.Add(button2);
@@ -696,6 +820,63 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Schedule";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView5
+            // 
+            dataGridView5.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView5.Location = new Point(671, 100);
+            dataGridView5.Name = "dataGridView5";
+            dataGridView5.Size = new Size(113, 299);
+            dataGridView5.TabIndex = 13;
+            // 
+            // button6
+            // 
+            button6.Location = new Point(709, 71);
+            button6.Name = "button6";
+            button6.Size = new Size(75, 23);
+            button6.TabIndex = 12;
+            button6.Text = "Edit";
+            button6.UseVisualStyleBackColor = true;
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label34.Location = new Point(551, 12);
+            label34.Name = "label34";
+            label34.Size = new Size(50, 17);
+            label34.TabIndex = 11;
+            label34.Text = "label34";
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label35.Location = new Point(446, 12);
+            label35.Name = "label35";
+            label35.Size = new Size(97, 17);
+            label35.TabIndex = 10;
+            label35.Text = "Section Name:";
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label33.Location = new Point(352, 12);
+            label33.Name = "label33";
+            label33.Size = new Size(50, 17);
+            label33.TabIndex = 9;
+            label33.Text = "label33";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label32.Location = new Point(247, 12);
+            label32.Name = "label32";
+            label32.Size = new Size(99, 17);
+            label32.TabIndex = 8;
+            label32.Text = "Grade/Section:";
             // 
             // button3
             // 
@@ -710,9 +891,9 @@
             // dataGridView4
             // 
             dataGridView4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView4.Location = new Point(227, 100);
+            dataGridView4.Location = new Point(238, 100);
             dataGridView4.Name = "dataGridView4";
-            dataGridView4.Size = new Size(557, 299);
+            dataGridView4.Size = new Size(427, 299);
             dataGridView4.TabIndex = 6;
             // 
             // button2
@@ -740,6 +921,7 @@
             // 
             dataGridView3.AllowUserToAddRows = false;
             dataGridView3.AllowUserToDeleteRows = false;
+            dataGridView3.AllowUserToResizeRows = false;
             dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView3.Columns.AddRange(new DataGridViewColumn[] { gs_index, g_s, sec_name });
             dataGridView3.Location = new Point(8, 35);
@@ -775,21 +957,57 @@
             tabPage5.Padding = new Padding(3);
             tabPage5.Size = new Size(792, 405);
             tabPage5.TabIndex = 2;
-            tabPage5.Text = "Subjects";
+            tabPage5.Text = "Discip. Rec.";
             tabPage5.UseVisualStyleBackColor = true;
             // 
-            // label31
+            // student_index
             // 
-            label31.AutoSize = true;
-            label31.Font = new Font("Segoe UI", 9F);
-            label31.Location = new Point(260, 336);
-            label31.Name = "label31";
-            label31.RightToLeft = RightToLeft.Yes;
-            label31.Size = new Size(44, 15);
-            label31.TabIndex = 18;
-            label31.Text = "label31";
-            label31.TextAlign = ContentAlignment.TopRight;
-            label31.Visible = false;
+            student_index.HeaderText = "index";
+            student_index.Name = "student_index";
+            student_index.ReadOnly = true;
+            student_index.Visible = false;
+            // 
+            // stuStatus
+            // 
+            stuStatus.HeaderText = "Status";
+            stuStatus.Name = "stuStatus";
+            stuStatus.ReadOnly = true;
+            // 
+            // StudentNumber
+            // 
+            StudentNumber.HeaderText = "Student No..";
+            StudentNumber.Name = "StudentNumber";
+            StudentNumber.ReadOnly = true;
+            // 
+            // Surname
+            // 
+            Surname.HeaderText = "Surname";
+            Surname.Name = "Surname";
+            Surname.ReadOnly = true;
+            // 
+            // FirstName
+            // 
+            FirstName.HeaderText = "First Name";
+            FirstName.Name = "FirstName";
+            FirstName.ReadOnly = true;
+            // 
+            // Grd_Sec
+            // 
+            Grd_Sec.HeaderText = "Grd & Sec";
+            Grd_Sec.Name = "Grd_Sec";
+            Grd_Sec.ReadOnly = true;
+            // 
+            // Section
+            // 
+            Section.HeaderText = "Section";
+            Section.Name = "Section";
+            Section.ReadOnly = true;
+            // 
+            // dateAdded
+            // 
+            dateAdded.HeaderText = "added";
+            dateAdded.Name = "dateAdded";
+            dateAdded.ReadOnly = true;
             // 
             // Form1
             // 
@@ -817,6 +1035,7 @@
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView5).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView4).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
             ResumeLayout(false);
@@ -832,7 +1051,7 @@
         private TabPage tabPage3;
         private TabPage tabPage4;
         private TabPage grades;
-        private TabPage disc_records;
+        private TabPage Discip_Rec;
         private PictureBox pictureBox1;
         private Label label4;
         private Label label3;
@@ -872,13 +1091,6 @@
         private TextBox textBox2;
         private DataGridView dataGridView3;
         private Button button2;
-        private DataGridViewTextBoxColumn student_index;
-        private DataGridViewTextBoxColumn StudentNumber;
-        private DataGridViewTextBoxColumn Surname;
-        private DataGridViewTextBoxColumn FirstName;
-        private DataGridViewTextBoxColumn Grd_Sec;
-        private DataGridViewTextBoxColumn Section;
-        private DataGridViewTextBoxColumn dateAdded;
         private DataGridViewTextBoxColumn gs_index;
         private DataGridViewTextBoxColumn g_s;
         private DataGridViewTextBoxColumn sec_name;
@@ -890,5 +1102,28 @@
         private Label label30;
         private Button button5;
         private Label label31;
+        private Label label33;
+        private Label label32;
+        private Label label34;
+        private Label label35;
+        private Button button6;
+        private DataGridView dataGridView5;
+        private LinkLabel linkLabel1;
+        private TextBox textBox3;
+        private Label label37;
+        private Label label36;
+        private LinkLabel linkLabel4;
+        private LinkLabel linkLabel5;
+        private LinkLabel linkLabel6;
+        private LinkLabel linkLabel3;
+        private LinkLabel linkLabel2;
+        private DataGridViewTextBoxColumn student_index;
+        private DataGridViewTextBoxColumn stuStatus;
+        private DataGridViewTextBoxColumn StudentNumber;
+        private DataGridViewTextBoxColumn Surname;
+        private DataGridViewTextBoxColumn FirstName;
+        private DataGridViewTextBoxColumn Grd_Sec;
+        private DataGridViewTextBoxColumn Section;
+        private DataGridViewTextBoxColumn dateAdded;
     }
 }

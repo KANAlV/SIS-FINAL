@@ -1,4 +1,5 @@
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Relational;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -7,11 +8,12 @@ namespace SIS_FINAL
     public partial class Form1 : Form
     {
         string connectionString = "server=localhost;database=sis_final;user=root;password=;";
+        int StuPage = 0;
         public Form1()
         {
             InitializeComponent();
-            sectionQuery();
             studentQuery();
+            sectionQuery();
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.MultiSelect = false;
             dataGridView2.RowHeadersVisible = false;
@@ -21,7 +23,7 @@ namespace SIS_FINAL
 
         private void textBox1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text != "Search...")
+            if (textBox1.Text == "Search...")
             {
                 textBox1.Clear();
                 textBox1.ForeColor = Color.Black;
@@ -29,7 +31,7 @@ namespace SIS_FINAL
         }
         private void textBox2_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text != "Search...")
+            if (textBox2.Text == "Search...")
             {
                 textBox2.Clear();
                 textBox2.ForeColor = Color.Black;
@@ -38,11 +40,17 @@ namespace SIS_FINAL
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            this.StuPage = 0;
+            studentQuery();
         }
 
         private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            dataGridView3.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView3.Rows[e.RowIndex];
+            }
             // Simulated "database" values:
             Dictionary<string, string> timeRangesPerDay = new Dictionary<string, string>()
             {
@@ -140,7 +148,8 @@ namespace SIS_FINAL
         private void sectionQuery()
         {
             string searchText = textBox2.Text.Trim();
-
+            dataGridView3.Rows.Clear();
+            int maxpage = pageCounter("grade-section");
             string query;
 
             // Check if the search box is empty or contains "Search..."
@@ -182,7 +191,7 @@ namespace SIS_FINAL
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error: " + ex.Message);
+                        
                     }
                 }
             }
@@ -190,14 +199,50 @@ namespace SIS_FINAL
         }
         private void studentQuery()
         {
+            textBox3.Text = this.StuPage.ToString();
+            int offset = 20 * this.StuPage;
             dataGridView1.Rows.Clear();
-            string query = @"
-                SELECT 
-                    students.student_pk, students.students_no, students.surname, students.first_name, students.gender, students.enrolled, students.dateAdded,
-                    `grade-section`.`grade-sec`, `grade-section`.`section_name`
-                FROM students
-                LEFT JOIN `grade-section` ON students.`grade-sec_pk` = `grade-section`.`grade-section_pk`
-            ";
+            int maxpage = pageCounter("students");
+            string query;
+
+            // Check if the search box is empty or contains "Search..."
+            if (string.IsNullOrEmpty(textBox1.Text.Trim()) || textBox1.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
+            {
+                // Normal query (no WHERE)
+                query = @$"
+                    SELECT 
+                        students.student_pk, students.students_no, students.surname, students.first_name, students.gender, students.enrolled, students.dateAdded,
+                        `grade-section`.`grade-sec`, `grade-section`.`section_name`
+                    FROM students
+                    LEFT JOIN `grade-section` ON students.`grade-sec_pk` = `grade-section`.`grade-section_pk`
+                    ORDER BY students_no ASC
+                    LIMIT 20 OFFSET {offset};
+                ";
+            }
+            else
+            {
+                // Search query with WHERE
+                query = @$"
+                    SELECT 
+                        students.student_pk, 
+                        students.students_no, 
+                        students.surname, 
+                        students.first_name, 
+                        students.gender, 
+                        students.enrolled, 
+                        students.dateAdded,
+                        `grade-section`.`grade-sec`, 
+                        `grade-section`.`section_name`
+                    FROM students
+                    LEFT JOIN `grade-section` 
+                        ON students.`grade-sec_pk` = `grade-section`.`grade-section_pk`
+                    WHERE students.students_no LIKE @searchText 
+                        OR students.surname LIKE @searchText  
+                        OR students.first_name LIKE @searchText
+                    ORDER BY students.students_no ASC
+                    LIMIT 20 OFFSET {offset};
+                ";
+            }
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -207,6 +252,11 @@ namespace SIS_FINAL
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
+                        if (!string.IsNullOrEmpty(textBox1.Text.Trim()) && !textBox1.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Add parameter for the WHERE clause
+                            command.Parameters.AddWithValue("@searchText", $"%{textBox1.Text.Trim()}%");
+                        }
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
                             dataGridView1.Rows.Clear(); // Clear existing rows before adding new
@@ -232,7 +282,7 @@ namespace SIS_FINAL
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+
                 }
             }
         }
@@ -366,5 +416,116 @@ namespace SIS_FINAL
             Form4 editStu = new Form4(label31.Text);
             editStu.Show();
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.StuPage++;
+            studentQuery();
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.StuPage = this.StuPage + 2;
+            studentQuery();
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.StuPage = this.StuPage + 3;
+            studentQuery();
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.StuPage--;
+            studentQuery();
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.StuPage = this.StuPage - 2;
+            studentQuery();
+        }
+
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.StuPage = this.StuPage - 3;
+            studentQuery();
+        }
+
+        private int pageCounter(string table)
+        {
+            string countQuery = null;
+
+            switch (table)
+            {
+                case "students":
+                    if (string.IsNullOrEmpty(textBox1.Text.Trim()) || textBox1.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
+                    {
+                        countQuery = @"SELECT COUNT(*) FROM students;";
+                    }
+                    else
+                    {
+                        countQuery = @"
+                            SELECT COUNT(*) 
+                            FROM students
+                            WHERE students.students_no LIKE @searchText
+                                OR students.surname LIKE @searchText
+                                OR students.first_name LIKE @searchText;
+                        ";
+                    }
+                    break;
+
+                case "grade-section":
+                    if (string.IsNullOrEmpty(textBox2.Text.Trim()) || textBox2.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
+                    {
+                        countQuery = @"SELECT COUNT(*) FROM `grade-section`;";
+                    }
+                    else
+                    {
+                        countQuery = @"
+                            SELECT COUNT(*)
+                            FROM `grade-section`
+                            WHERE `grade-sec` LIKE @searchText
+                                OR `section_name` LIKE @searchText;
+                        ";
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentException($"Unknown table: {table}");
+            }
+
+            int totalRows = 0;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlCommand command = new MySqlCommand(countQuery, connection))
+            {
+                // Add parameter if needed
+                if (countQuery.Contains("@searchText"))
+                {
+                    string searchText = "";
+                    if (table == "students")
+                        searchText = textBox1.Text.Trim();
+                    else if (table == "grade-section")
+                        searchText = textBox2.Text.Trim();
+
+                    command.Parameters.AddWithValue("@searchText", $"%{searchText}%");
+                }
+
+                connection.Open();
+                totalRows = Convert.ToInt32(command.ExecuteScalar());
+            }
+
+            int pageSize = 20;
+            int totalPages = (int)Math.Ceiling((double)totalRows / pageSize);
+            //MessageBox.Show(totalPages.ToString());
+            return totalPages;
+        }
+
     }
 }
