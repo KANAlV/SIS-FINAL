@@ -26,6 +26,14 @@ namespace SIS_FINAL
             dataGridView4.MultiSelect = false;
             dataGridView5.RowHeadersVisible = false;
             dataGridView5.MultiSelect = false;
+            foreach (DataGridViewColumn column in dataGridView2.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            foreach (DataGridViewColumn column in dataGridView4.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void textBox1_Click(object sender, EventArgs e)
@@ -79,6 +87,8 @@ namespace SIS_FINAL
                                         label33.Visible = true;
                                         label34.Visible = true;
                                         button6.Visible = true;
+                                        generateTable(dataGridView4);
+                                        LoadTimeDataFromDatabase(pkValue.ToString(),dataGridView4);
                                     }
                                 }
                             }
@@ -90,37 +100,18 @@ namespace SIS_FINAL
                     }
                 }
             }
-            // Simulated "database" values:
-            Dictionary<string, string> timeRangesPerDay = new Dictionary<string, string>()
-            {
-                { "Mon", "'7:00-8:30','10:00-11:30'" },
-                { "Tue", "'8:00-9:30','13:00-14:30'" },
-                { "Wed", "'9:00-10:30'" },
-                { "Thu", "'7:30-9:00','15:00-16:30'" },
-                { "Fri", "'10:00-11:30','14:00-15:30'" }
-            };
+        }
 
-            Dictionary<string, string> colorsPerDay = new Dictionary<string, string>()
-            {
-                { "Mon", "'blue','red'" },
-                { "Tue", "'green','orange'" },
-                { "Wed", "'purple'" },
-                { "Thu", "'yellow','pink'" },
-                { "Fri", "'gray','cyan'" }
-            };
+        private void generateTable(DataGridView DGV)
+        {
+            DGV.Columns.Clear();
+            DGV.Rows.Clear();
+            DGV.Columns.Add("TimeSlot", "Time Slot");
 
-            // Setup DataGridView2
-            dataGridView4.Columns.Clear();
-            dataGridView4.Rows.Clear();
-
-            // First column: Time Slot labels
-            dataGridView4.Columns.Add("TimeSlot", "Time Slot");
-
-            // Monday to Friday columns
             string[] daysOfWeek = { "Mon", "Tue", "Wed", "Thu", "Fri" };
             foreach (var day in daysOfWeek)
             {
-                dataGridView4.Columns.Add(day, day);
+                DGV.Columns.Add(day, day);
             }
 
             // Generate time slots from 5 AM to 7 PM
@@ -130,52 +121,20 @@ namespace SIS_FINAL
 
             for (var time = startTime; time < endTime; time += slotDuration)
             {
-                string timeSlot = $"{DateTime.Today.Add(time):hh\\:mm tt}";
-                int rowIndex = dataGridView4.Rows.Add();
-                dataGridView4.Rows[rowIndex].Cells[0].Value = timeSlot;
+                var start = DateTime.Today.Add(time).ToString("hh:mm tt");
+                var end = DateTime.Today.Add(time + slotDuration).ToString("hh:mm tt");
+                string timeSlot = $"{start} - {end}";
 
-                // For each day, parse time ranges and colors then apply them
+                int rowIndex = DGV.Rows.Add();
+                DGV.Rows[rowIndex].Cells[0].Value = timeSlot;
+
                 for (int col = 1; col <= daysOfWeek.Length; col++)
                 {
-                    string day = daysOfWeek[col - 1];
-                    var cell = dataGridView4.Rows[rowIndex].Cells[col];
-
-                    // Check if we have data for the day
-                    if (timeRangesPerDay.ContainsKey(day))
-                    {
-                        // Parse time ranges
-                        var timeRanges = timeRangesPerDay[day]
-                            .Split(',')
-                            .Select(s => s.Trim('\''))
-                            .Select(s => s.Split('-'))
-                            .Select(parts => new
-                            {
-                                Start = TimeSpan.Parse(parts[0]),
-                                End = TimeSpan.Parse(parts[1])
-                            })
-                            .ToList();
-
-                        // Parse colors
-                        var colors = colorsPerDay[day]
-                            .Split(',')
-                            .Select(s => s.Trim('\''))
-                            .ToList();
-
-                        // Apply color if time slot overlaps with any range
-                        for (int i = 0; i < timeRanges.Count; i++)
-                        {
-                            var range = timeRanges[i];
-                            if (time < range.End && (time + slotDuration) > range.Start)
-                            {
-                                cell.Style.BackColor = Color.FromName(colors[i]);
-                            }
-                        }
-                    }
+                    DGV.Rows[rowIndex].Cells[col].Value = "";
                 }
             }
 
-            // Optional: adjust DataGridView styles
-            dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -371,6 +330,7 @@ namespace SIS_FINAL
                         students.gender,
                         students.enrolled,
                         students.dateAdded,
+                        students.`grade-sec_pk`,
                         `grade-section`.`grade-sec`,
                         `grade-section`.`section_name`,
                         guardian.surname AS guardian_surname,
@@ -423,6 +383,10 @@ namespace SIS_FINAL
                                     groupBox2.Visible = true;
                                     label30.Visible = true;
                                     button5.Visible = true;
+
+                                    //Sched
+                                    generateTable(dataGridView2);
+                                    LoadTimeDataFromDatabase(reader["grade-sec_pk"].ToString(),dataGridView2);
 
                                     // === Image loading ===
                                     if (reader["photo"] != DBNull.Value)
@@ -607,6 +571,112 @@ namespace SIS_FINAL
                             }
                         }
                     }
+                }
+            }
+        }
+
+
+        //Loading Time
+        private void LoadTimeDataFromDatabase(string PK,DataGridView DGV)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT time
+                    FROM `grade-section`
+                    WHERE `grade-section_pk` = @GradeSectionPK";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@GradeSectionPK", PK);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        string timeData = result.ToString();
+
+                        // Parse the timeData manually
+                        List<List<int>> parsedData = ParseTimeData(timeData);
+
+                        // Fill the DataGridView
+                        for (int rowIndex = 0; rowIndex < parsedData.Count && rowIndex < DGV.Rows.Count; rowIndex++)
+                        {
+                            var row = DGV.Rows[rowIndex];
+                            var dayData = parsedData[rowIndex];
+
+                            for (int dayIndex = 0; dayIndex < dayData.Count && dayIndex < 5; dayIndex++)
+                            {
+                                int subjectPK = dayData[dayIndex];
+
+                                if (subjectPK != 0)
+                                {
+                                    string colorHex = GetColorHexBySubjectPK(subjectPK);
+                                    if (!string.IsNullOrEmpty(colorHex))
+                                    {
+                                        Color cellColor = ColorTranslator.FromHtml(colorHex);
+                                        row.Cells[dayIndex + 1].Style.BackColor = cellColor;
+                                    }
+                                }
+                                else
+                                {
+                                    row.Cells[dayIndex + 1].Style.BackColor = DGV.DefaultCellStyle.BackColor;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<List<int>> ParseTimeData(string timeData)
+        {
+            // Remove whitespace
+            timeData = timeData.Replace(" ", "").Replace("\r", "").Replace("\n", "");
+
+            // Remove outer brackets
+            timeData = timeData.TrimStart('[').TrimEnd(']');
+
+            var rows = new List<List<int>>();
+
+            // Split rows
+            string[] rowStrings = timeData.Split(new string[] { "],[" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var rowStr in rowStrings)
+            {
+                string cleanRow = rowStr.Trim('[', ']');
+                string[] values = cleanRow.Split(',');
+
+                var intList = new List<int>();
+                foreach (var value in values)
+                {
+                    if (int.TryParse(value, out int intValue))
+                    {
+                        intList.Add(intValue);
+                    }
+                    else
+                    {
+                        intList.Add(0); // default if parsing fails
+                    }
+                }
+
+                rows.Add(intList);
+            }
+
+            return rows;
+        }
+
+        // Helper function to get the color from subject_pk
+        private string GetColorHexBySubjectPK(int subjectPK)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT color FROM subjects WHERE subject_pk = @SubjectPK";
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@SubjectPK", subjectPK);
+                    var result = cmd.ExecuteScalar();
+                    return result?.ToString().ToUpper() ?? string.Empty;
                 }
             }
         }

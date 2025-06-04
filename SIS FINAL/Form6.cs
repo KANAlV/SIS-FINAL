@@ -97,8 +97,6 @@ namespace SIS_FINAL
                                 }
                             }
                         }
-
-                        Close();
                         subjectQuery();
                     }
                     catch (Exception ex)

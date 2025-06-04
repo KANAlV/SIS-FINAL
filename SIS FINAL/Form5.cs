@@ -30,6 +30,11 @@ namespace SIS_FINAL
             dataGridView2.MultiSelect = false;
             dataGridView1.ClearSelection();
             dataGridView2.ClearSelection();
+            LoadTimeDataFromDatabase();
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -51,7 +56,7 @@ namespace SIS_FINAL
                     {
                         clickedCell.Style.BackColor = dataGridView1.DefaultCellStyle.BackColor;
                     }
-                    
+
                 }
             }
         }
@@ -186,6 +191,200 @@ namespace SIS_FINAL
             {
                 this.hexCode = "eraser";
                 label1.Text = "Eraser";
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string[] daysOfWeek = { "Mon", "Tue", "Wed", "Thu", "Fri" };
+
+            // List to hold each row's data
+            List<string> timeSlotsData = new List<string>();
+
+            // Loop through each row in the DataGridView
+            for (int rowIndex = 0; rowIndex < dataGridView1.Rows.Count; rowIndex++)
+            {
+                var row = dataGridView1.Rows[rowIndex];
+
+                // Skip empty rows (just in case)
+                if (row.Cells[0].Value == null || string.IsNullOrWhiteSpace(row.Cells[0].Value.ToString()))
+                    continue;
+
+                // Prepare a single row's data (subject PKs or 0)
+                List<string> rowData = new List<string>();
+
+                for (int colIndex = 1; colIndex <= daysOfWeek.Length; colIndex++)
+                {
+                    var cell = row.Cells[colIndex];
+                    Color cellColor = cell.Style.BackColor;
+
+                    if (cellColor != dataGridView1.DefaultCellStyle.BackColor)
+                    {
+                        // Get the subject PK by color
+                        string hexCode = ColorTranslator.ToHtml(cellColor).ToUpper();
+                        string subjectPK = GetSubjectPKByColor(hexCode);
+
+                        // If found, store subject PK, else store 0
+                        if (!string.IsNullOrEmpty(subjectPK) && int.TryParse(subjectPK, out int pk))
+                        {
+                            rowData.Add(pk.ToString());
+                        }
+                        else
+                        {
+                            rowData.Add("0");
+                        }
+                    }
+                    else
+                    {
+                        rowData.Add("0");
+                    }
+                }
+
+                // Store this row as a JSON-like string (e.g. [1,0,0,0,0])
+                string rowDataString = $"[{string.Join(",", rowData)}]";
+                timeSlotsData.Add(rowDataString);
+            }
+
+            // Combine all rows into one big array
+            string finalTimeSlots = $"[{string.Join(",", timeSlotsData)}]";
+
+            // Save to the grade-section table
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string updateQuery = @"
+                    UPDATE `grade-section`
+                    SET time = @TimeSlots
+                    WHERE `grade-section_pk` = @GradeSectionPK";
+
+                using (var cmd = new MySqlCommand(updateQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@TimeSlots", finalTimeSlots);
+                    cmd.Parameters.AddWithValue("@GradeSectionPK", this.PK);
+
+                    cmd.ExecuteNonQuery();
+                    Close();
+                }
+            }
+        }
+
+        private string GetSubjectPKByColor(string hexCode)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT subject_pk FROM subjects WHERE color = @ColorHex";
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ColorHex", hexCode);
+                    var result = cmd.ExecuteScalar();
+                    return result?.ToString() ?? string.Empty;
+                }
+            }
+        }
+
+        //Loading Time
+        private void LoadTimeDataFromDatabase()
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT time
+                    FROM `grade-section`
+                    WHERE `grade-section_pk` = @GradeSectionPK";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@GradeSectionPK", this.PK);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        string timeData = result.ToString();
+
+                        // Parse the timeData manually
+                        List<List<int>> parsedData = ParseTimeData(timeData);
+
+                        // Fill the DataGridView
+                        for (int rowIndex = 0; rowIndex < parsedData.Count && rowIndex < dataGridView1.Rows.Count; rowIndex++)
+                        {
+                            var row = dataGridView1.Rows[rowIndex];
+                            var dayData = parsedData[rowIndex];
+
+                            for (int dayIndex = 0; dayIndex < dayData.Count && dayIndex < 5; dayIndex++)
+                            {
+                                int subjectPK = dayData[dayIndex];
+
+                                if (subjectPK != 0)
+                                {
+                                    string colorHex = GetColorHexBySubjectPK(subjectPK);
+                                    if (!string.IsNullOrEmpty(colorHex))
+                                    {
+                                        Color cellColor = ColorTranslator.FromHtml(colorHex);
+                                        row.Cells[dayIndex + 1].Style.BackColor = cellColor;
+                                    }
+                                }
+                                else
+                                {
+                                    row.Cells[dayIndex + 1].Style.BackColor = dataGridView1.DefaultCellStyle.BackColor;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<List<int>> ParseTimeData(string timeData)
+        {
+            // Remove whitespace
+            timeData = timeData.Replace(" ", "").Replace("\r", "").Replace("\n", "");
+
+            // Remove outer brackets
+            timeData = timeData.TrimStart('[').TrimEnd(']');
+
+            var rows = new List<List<int>>();
+
+            // Split rows
+            string[] rowStrings = timeData.Split(new string[] { "],[" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var rowStr in rowStrings)
+            {
+                string cleanRow = rowStr.Trim('[', ']');
+                string[] values = cleanRow.Split(',');
+
+                var intList = new List<int>();
+                foreach (var value in values)
+                {
+                    if (int.TryParse(value, out int intValue))
+                    {
+                        intList.Add(intValue);
+                    }
+                    else
+                    {
+                        intList.Add(0); // default if parsing fails
+                    }
+                }
+
+                rows.Add(intList);
+            }
+
+            return rows;
+        }
+
+        // Helper function to get the color from subject_pk
+        private string GetColorHexBySubjectPK(int subjectPK)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT color FROM subjects WHERE subject_pk = @SubjectPK";
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@SubjectPK", subjectPK);
+                    var result = cmd.ExecuteScalar();
+                    return result?.ToString().ToUpper() ?? string.Empty;
+                }
             }
         }
     }

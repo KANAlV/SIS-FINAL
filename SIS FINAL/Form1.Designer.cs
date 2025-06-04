@@ -97,6 +97,9 @@
             tabPage2 = new TabPage();
             label38 = new Label();
             dataGridView5 = new DataGridView();
+            subPK = new DataGridViewTextBoxColumn();
+            subColor = new DataGridViewTextBoxColumn();
+            subName = new DataGridViewTextBoxColumn();
             button6 = new Button();
             label34 = new Label();
             label35 = new Label();
@@ -111,9 +114,6 @@
             g_s = new DataGridViewTextBoxColumn();
             sec_name = new DataGridViewTextBoxColumn();
             tabPage5 = new TabPage();
-            subPK = new DataGridViewTextBoxColumn();
-            subColor = new DataGridViewTextBoxColumn();
-            subName = new DataGridViewTextBoxColumn();
             tabControl1.SuspendLayout();
             general.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -563,9 +563,12 @@
             // 
             // dataGridView2
             // 
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridView2.AllowUserToDeleteRows = false;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Location = new Point(6, 36);
             dataGridView2.Name = "dataGridView2";
+            dataGridView2.ReadOnly = true;
             dataGridView2.Size = new Size(301, 316);
             dataGridView2.TabIndex = 3;
             // 
@@ -898,6 +901,27 @@
             dataGridView5.Size = new Size(113, 299);
             dataGridView5.TabIndex = 13;
             // 
+            // subPK
+            // 
+            subPK.HeaderText = "subPK";
+            subPK.Name = "subPK";
+            subPK.ReadOnly = true;
+            subPK.Visible = false;
+            // 
+            // subColor
+            // 
+            subColor.HeaderText = "Color";
+            subColor.Name = "subColor";
+            subColor.ReadOnly = true;
+            subColor.Width = 50;
+            // 
+            // subName
+            // 
+            subName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            subName.HeaderText = "Subject";
+            subName.Name = "subName";
+            subName.ReadOnly = true;
+            // 
             // button6
             // 
             button6.Location = new Point(709, 10);
@@ -1039,27 +1063,6 @@
             tabPage5.TabIndex = 2;
             tabPage5.Text = "Discip. Rec.";
             tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // subPK
-            // 
-            subPK.HeaderText = "subPK";
-            subPK.Name = "subPK";
-            subPK.ReadOnly = true;
-            subPK.Visible = false;
-            // 
-            // subColor
-            // 
-            subColor.HeaderText = "Color";
-            subColor.Name = "subColor";
-            subColor.ReadOnly = true;
-            subColor.Width = 50;
-            // 
-            // subName
-            // 
-            subName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            subName.HeaderText = "Subject";
-            subName.Name = "subName";
-            subName.ReadOnly = true;
             // 
             // Form1
             // 

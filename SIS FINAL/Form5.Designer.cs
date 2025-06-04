@@ -38,11 +38,11 @@
             label33 = new Label();
             label32 = new Label();
             panel1 = new Panel();
+            button3 = new Button();
             label1 = new Label();
             label2 = new Label();
             button2 = new Button();
             button1 = new Button();
-            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             panel1.SuspendLayout();
@@ -156,6 +156,16 @@
             panel1.Size = new Size(801, 397);
             panel1.TabIndex = 16;
             // 
+            // button3
+            // 
+            button3.Location = new Point(728, 33);
+            button3.Name = "button3";
+            button3.Size = new Size(61, 23);
+            button3.TabIndex = 44;
+            button3.Text = "Eraser";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -194,16 +204,7 @@
             button1.TabIndex = 40;
             button1.Text = "Update";
             button1.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(728, 33);
-            button3.Name = "button3";
-            button3.Size = new Size(61, 23);
-            button3.TabIndex = 44;
-            button3.Text = "Eraser";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            button1.Click += button1_Click;
             // 
             // Form5
             // 
