@@ -70,6 +70,14 @@
             grades = new TabPage();
             Discip_Rec = new TabPage();
             dataGridView1 = new DataGridView();
+            student_index = new DataGridViewTextBoxColumn();
+            stuStatus = new DataGridViewTextBoxColumn();
+            StudentNumber = new DataGridViewTextBoxColumn();
+            Surname = new DataGridViewTextBoxColumn();
+            FirstName = new DataGridViewTextBoxColumn();
+            Grd_Sec = new DataGridViewTextBoxColumn();
+            Section = new DataGridViewTextBoxColumn();
+            dateAdded = new DataGridViewTextBoxColumn();
             textBox1 = new TextBox();
             tabPage3 = new TabPage();
             tabPage4 = new TabPage();
@@ -87,6 +95,7 @@
             button4 = new Button();
             button1 = new Button();
             tabPage2 = new TabPage();
+            label38 = new Label();
             dataGridView5 = new DataGridView();
             button6 = new Button();
             label34 = new Label();
@@ -102,14 +111,9 @@
             g_s = new DataGridViewTextBoxColumn();
             sec_name = new DataGridViewTextBoxColumn();
             tabPage5 = new TabPage();
-            student_index = new DataGridViewTextBoxColumn();
-            stuStatus = new DataGridViewTextBoxColumn();
-            StudentNumber = new DataGridViewTextBoxColumn();
-            Surname = new DataGridViewTextBoxColumn();
-            FirstName = new DataGridViewTextBoxColumn();
-            Grd_Sec = new DataGridViewTextBoxColumn();
-            Section = new DataGridViewTextBoxColumn();
-            dateAdded = new DataGridViewTextBoxColumn();
+            subPK = new DataGridViewTextBoxColumn();
+            subColor = new DataGridViewTextBoxColumn();
+            subName = new DataGridViewTextBoxColumn();
             tabControl1.SuspendLayout();
             general.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -597,6 +601,55 @@
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
+            // student_index
+            // 
+            student_index.HeaderText = "index";
+            student_index.Name = "student_index";
+            student_index.ReadOnly = true;
+            student_index.Visible = false;
+            // 
+            // stuStatus
+            // 
+            stuStatus.HeaderText = "Status";
+            stuStatus.Name = "stuStatus";
+            stuStatus.ReadOnly = true;
+            // 
+            // StudentNumber
+            // 
+            StudentNumber.HeaderText = "Student No..";
+            StudentNumber.Name = "StudentNumber";
+            StudentNumber.ReadOnly = true;
+            // 
+            // Surname
+            // 
+            Surname.HeaderText = "Surname";
+            Surname.Name = "Surname";
+            Surname.ReadOnly = true;
+            // 
+            // FirstName
+            // 
+            FirstName.HeaderText = "First Name";
+            FirstName.Name = "FirstName";
+            FirstName.ReadOnly = true;
+            // 
+            // Grd_Sec
+            // 
+            Grd_Sec.HeaderText = "Grd & Sec";
+            Grd_Sec.Name = "Grd_Sec";
+            Grd_Sec.ReadOnly = true;
+            // 
+            // Section
+            // 
+            Section.HeaderText = "Section";
+            Section.Name = "Section";
+            Section.ReadOnly = true;
+            // 
+            // dateAdded
+            // 
+            dateAdded.HeaderText = "added";
+            dateAdded.Name = "dateAdded";
+            dateAdded.ReadOnly = true;
+            // 
             // textBox1
             // 
             textBox1.ForeColor = SystemColors.GrayText;
@@ -802,6 +855,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(label38);
             tabPage2.Controls.Add(dataGridView5);
             tabPage2.Controls.Add(button6);
             tabPage2.Controls.Add(label34);
@@ -821,22 +875,39 @@
             tabPage2.Text = "Schedule";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label38
+            // 
+            label38.AutoSize = true;
+            label38.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label38.Location = new Point(247, 35);
+            label38.Name = "label38";
+            label38.Size = new Size(50, 17);
+            label38.TabIndex = 14;
+            label38.Text = "label38";
+            label38.Visible = false;
+            // 
             // dataGridView5
             // 
+            dataGridView5.AllowUserToAddRows = false;
+            dataGridView5.AllowUserToDeleteRows = false;
             dataGridView5.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView5.Location = new Point(671, 100);
+            dataGridView5.Columns.AddRange(new DataGridViewColumn[] { subPK, subColor, subName });
+            dataGridView5.Location = new Point(671, 59);
             dataGridView5.Name = "dataGridView5";
+            dataGridView5.ReadOnly = true;
             dataGridView5.Size = new Size(113, 299);
             dataGridView5.TabIndex = 13;
             // 
             // button6
             // 
-            button6.Location = new Point(709, 71);
+            button6.Location = new Point(709, 10);
             button6.Name = "button6";
             button6.Size = new Size(75, 23);
             button6.TabIndex = 12;
             button6.Text = "Edit";
             button6.UseVisualStyleBackColor = true;
+            button6.Visible = false;
+            button6.Click += button6_Click;
             // 
             // label34
             // 
@@ -847,6 +918,7 @@
             label34.Size = new Size(50, 17);
             label34.TabIndex = 11;
             label34.Text = "label34";
+            label34.Visible = false;
             // 
             // label35
             // 
@@ -867,6 +939,7 @@
             label33.Size = new Size(50, 17);
             label33.TabIndex = 9;
             label33.Text = "label33";
+            label33.Visible = false;
             // 
             // label32
             // 
@@ -880,7 +953,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(118, 6);
+            button3.Location = new Point(98, 5);
             button3.Name = "button3";
             button3.Size = new Size(24, 23);
             button3.TabIndex = 7;
@@ -890,19 +963,24 @@
             // 
             // dataGridView4
             // 
+            dataGridView4.AllowUserToAddRows = false;
+            dataGridView4.AllowUserToDeleteRows = false;
+            dataGridView4.AllowUserToResizeColumns = false;
+            dataGridView4.AllowUserToResizeRows = false;
             dataGridView4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView4.Location = new Point(238, 100);
+            dataGridView4.Location = new Point(238, 59);
             dataGridView4.Name = "dataGridView4";
+            dataGridView4.ReadOnly = true;
             dataGridView4.Size = new Size(427, 299);
             dataGridView4.TabIndex = 6;
             // 
             // button2
             // 
-            button2.Location = new Point(148, 6);
+            button2.Location = new Point(128, 5);
             button2.Name = "button2";
-            button2.Size = new Size(75, 23);
+            button2.Size = new Size(93, 23);
             button2.TabIndex = 5;
-            button2.Text = "Add";
+            button2.Text = "Add Grd&Sec";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
@@ -911,7 +989,7 @@
             textBox2.ForeColor = SystemColors.GrayText;
             textBox2.Location = new Point(8, 6);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(104, 23);
+            textBox2.Size = new Size(84, 23);
             textBox2.TabIndex = 4;
             textBox2.Text = "Search...";
             textBox2.Click += textBox2_Click;
@@ -921,6 +999,7 @@
             // 
             dataGridView3.AllowUserToAddRows = false;
             dataGridView3.AllowUserToDeleteRows = false;
+            dataGridView3.AllowUserToResizeColumns = false;
             dataGridView3.AllowUserToResizeRows = false;
             dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView3.Columns.AddRange(new DataGridViewColumn[] { gs_index, g_s, sec_name });
@@ -929,7 +1008,7 @@
             dataGridView3.ReadOnly = true;
             dataGridView3.Size = new Size(213, 364);
             dataGridView3.TabIndex = 0;
-            dataGridView3.CellContentClick += dataGridView3_CellContentClick;
+            dataGridView3.CellClick += dataGridView3_CellContentClick;
             // 
             // gs_index
             // 
@@ -946,6 +1025,7 @@
             // 
             // sec_name
             // 
+            sec_name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             sec_name.HeaderText = "Sec. Name";
             sec_name.Name = "sec_name";
             sec_name.ReadOnly = true;
@@ -960,54 +1040,26 @@
             tabPage5.Text = "Discip. Rec.";
             tabPage5.UseVisualStyleBackColor = true;
             // 
-            // student_index
+            // subPK
             // 
-            student_index.HeaderText = "index";
-            student_index.Name = "student_index";
-            student_index.ReadOnly = true;
-            student_index.Visible = false;
+            subPK.HeaderText = "subPK";
+            subPK.Name = "subPK";
+            subPK.ReadOnly = true;
+            subPK.Visible = false;
             // 
-            // stuStatus
+            // subColor
             // 
-            stuStatus.HeaderText = "Status";
-            stuStatus.Name = "stuStatus";
-            stuStatus.ReadOnly = true;
+            subColor.HeaderText = "Color";
+            subColor.Name = "subColor";
+            subColor.ReadOnly = true;
+            subColor.Width = 50;
             // 
-            // StudentNumber
+            // subName
             // 
-            StudentNumber.HeaderText = "Student No..";
-            StudentNumber.Name = "StudentNumber";
-            StudentNumber.ReadOnly = true;
-            // 
-            // Surname
-            // 
-            Surname.HeaderText = "Surname";
-            Surname.Name = "Surname";
-            Surname.ReadOnly = true;
-            // 
-            // FirstName
-            // 
-            FirstName.HeaderText = "First Name";
-            FirstName.Name = "FirstName";
-            FirstName.ReadOnly = true;
-            // 
-            // Grd_Sec
-            // 
-            Grd_Sec.HeaderText = "Grd & Sec";
-            Grd_Sec.Name = "Grd_Sec";
-            Grd_Sec.ReadOnly = true;
-            // 
-            // Section
-            // 
-            Section.HeaderText = "Section";
-            Section.Name = "Section";
-            Section.ReadOnly = true;
-            // 
-            // dateAdded
-            // 
-            dateAdded.HeaderText = "added";
-            dateAdded.Name = "dateAdded";
-            dateAdded.ReadOnly = true;
+            subName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            subName.HeaderText = "Subject";
+            subName.Name = "subName";
+            subName.ReadOnly = true;
             // 
             // Form1
             // 
@@ -1091,9 +1143,6 @@
         private TextBox textBox2;
         private DataGridView dataGridView3;
         private Button button2;
-        private DataGridViewTextBoxColumn gs_index;
-        private DataGridViewTextBoxColumn g_s;
-        private DataGridViewTextBoxColumn sec_name;
         private DataGridView dataGridView4;
         private TabPage tabPage5;
         private Button button1;
@@ -1125,5 +1174,12 @@
         private DataGridViewTextBoxColumn Grd_Sec;
         private DataGridViewTextBoxColumn Section;
         private DataGridViewTextBoxColumn dateAdded;
+        private Label label38;
+        private DataGridViewTextBoxColumn gs_index;
+        private DataGridViewTextBoxColumn g_s;
+        private DataGridViewTextBoxColumn sec_name;
+        private DataGridViewTextBoxColumn subPK;
+        private DataGridViewTextBoxColumn subColor;
+        private DataGridViewTextBoxColumn subName;
     }
 }

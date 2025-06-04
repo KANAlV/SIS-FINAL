@@ -9,16 +9,23 @@ namespace SIS_FINAL
     {
         string connectionString = "server=localhost;database=sis_final;user=root;password=;";
         int StuPage = 0;
+        int gsPK = 0;
         public Form1()
         {
             InitializeComponent();
             studentQuery();
             sectionQuery();
+            subjectQuery();
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.MultiSelect = false;
             dataGridView2.RowHeadersVisible = false;
+            dataGridView2.MultiSelect = false;
             dataGridView3.RowHeadersVisible = false;
+            dataGridView3.MultiSelect = false;
             dataGridView4.RowHeadersVisible = false;
+            dataGridView4.MultiSelect = false;
+            dataGridView5.RowHeadersVisible = false;
+            dataGridView5.MultiSelect = false;
         }
 
         private void textBox1_Click(object sender, EventArgs e)
@@ -50,6 +57,38 @@ namespace SIS_FINAL
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView3.Rows[e.RowIndex];
+                var pkValue = row.Cells[0].Value;
+                if (pkValue != null)
+                {
+                    string query = $"SELECT * FROM `grade-section` WHERE `grade-section_pk` = {pkValue}";
+
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            try
+                            {
+                                connection.Open();
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        this.gsPK = int.Parse(pkValue.ToString());
+                                        label33.Text = reader["grade-sec"].ToString();
+                                        label34.Text = reader["section_name"].ToString();
+                                        label33.Visible = true;
+                                        label34.Visible = true;
+                                        button6.Visible = true;
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+                    }
+                }
             }
             // Simulated "database" values:
             Dictionary<string, string> timeRangesPerDay = new Dictionary<string, string>()
@@ -142,7 +181,7 @@ namespace SIS_FINAL
         private void button2_Click(object sender, EventArgs e)
         {
             Form2 addSection = new Form2();
-            addSection.Show();
+            addSection.ShowDialog();
         }
 
         private void sectionQuery()
@@ -191,7 +230,7 @@ namespace SIS_FINAL
                     }
                     catch (Exception ex)
                     {
-                        
+
                     }
                 }
             }
@@ -301,7 +340,7 @@ namespace SIS_FINAL
         private void button1_Click(object sender, EventArgs e)
         {
             Form3 enrol = new Form3();
-            enrol.Show();
+            enrol.ShowDialog();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -414,7 +453,7 @@ namespace SIS_FINAL
         private void button5_Click(object sender, EventArgs e)
         {
             Form4 editStu = new Form4(label31.Text);
-            editStu.Show();
+            editStu.ShowDialog();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -527,5 +566,49 @@ namespace SIS_FINAL
             return totalPages;
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Form5 setSched = new Form5(gsPK);
+            setSched.ShowDialog();
+        }
+        private void subjectQuery()
+        {
+            dataGridView5.Rows.Clear();
+            string selectQuery = @"SELECT * FROM subjects";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (MySqlCommand selectCommand = new MySqlCommand(selectQuery, connection))
+                {
+                    using (MySqlDataReader reader = selectCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string sn = reader["subject_name"].ToString();
+                            string c = reader["color"].ToString(); // stored hex string like "#FF0000"
+                            string sPK = reader["subject_pk"].ToString();
+
+                            int rowIndex = dataGridView5.Rows.Add(sPK, "", sn);
+
+                            if (!string.IsNullOrEmpty(c))
+                            {
+                                try
+                                {
+                                    Color cellColor = ColorTranslator.FromHtml(c);
+                                    dataGridView5.Rows[rowIndex].Cells[1].Style.BackColor = cellColor;
+                                }
+                                catch
+                                {
+                                    // Handle invalid color formats gracefully
+                                    dataGridView5.Rows[rowIndex].Cells[1].Style.BackColor = ColorTranslator.FromHtml("FFFFFF");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
