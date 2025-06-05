@@ -30,9 +30,6 @@
         {
             dataGridView1 = new DataGridView();
             dataGridView2 = new DataGridView();
-            subPK = new DataGridViewTextBoxColumn();
-            Color = new DataGridViewTextBoxColumn();
-            Subject = new DataGridViewTextBoxColumn();
             label34 = new Label();
             label35 = new Label();
             label33 = new Label();
@@ -43,6 +40,9 @@
             label2 = new Label();
             button2 = new Button();
             button1 = new Button();
+            subPK = new DataGridViewTextBoxColumn();
+            Color = new DataGridViewTextBoxColumn();
+            Subject = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             panel1.SuspendLayout();
@@ -76,27 +76,6 @@
             dataGridView2.Size = new Size(185, 294);
             dataGridView2.TabIndex = 4;
             dataGridView2.CellClick += dataGridView2_CellClick;
-            // 
-            // subPK
-            // 
-            subPK.HeaderText = "PK";
-            subPK.Name = "subPK";
-            subPK.ReadOnly = true;
-            subPK.Visible = false;
-            // 
-            // Color
-            // 
-            Color.HeaderText = "Color";
-            Color.Name = "Color";
-            Color.ReadOnly = true;
-            Color.Width = 50;
-            // 
-            // Subject
-            // 
-            Subject.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Subject.HeaderText = "Subject";
-            Subject.Name = "Subject";
-            Subject.ReadOnly = true;
             // 
             // label34
             // 
@@ -206,6 +185,27 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // subPK
+            // 
+            subPK.HeaderText = "PK";
+            subPK.Name = "subPK";
+            subPK.ReadOnly = true;
+            subPK.Visible = false;
+            // 
+            // Color
+            // 
+            Color.HeaderText = "";
+            Color.Name = "Color";
+            Color.ReadOnly = true;
+            Color.Width = 50;
+            // 
+            // Subject
+            // 
+            Subject.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Subject.HeaderText = "Subject";
+            Subject.Name = "Subject";
+            Subject.ReadOnly = true;
+            // 
             // Form5
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -233,11 +233,11 @@
         private Panel panel1;
         private Button button1;
         private Button button2;
-        private DataGridViewTextBoxColumn subPK;
-        private DataGridViewTextBoxColumn Color;
-        private DataGridViewTextBoxColumn Subject;
         private Label label1;
         private Label label2;
         private Button button3;
+        private DataGridViewTextBoxColumn subPK;
+        private DataGridViewTextBoxColumn Color;
+        private DataGridViewTextBoxColumn Subject;
     }
 }

@@ -275,7 +275,7 @@
             groupBox2.Size = new Size(776, 151);
             groupBox2.TabIndex = 40;
             groupBox2.TabStop = false;
-            groupBox2.Text = "groupBox2";
+            groupBox2.Text = "Gurardian Info";
             // 
             // label14
             // 

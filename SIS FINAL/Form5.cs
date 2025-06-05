@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Google.Protobuf.WellKnownTypes;
@@ -254,13 +255,31 @@ namespace SIS_FINAL
                 conn.Open();
                 string updateQuery = @"
                     UPDATE `grade-section`
-                    SET time = @TimeSlots
+                    SET time = @TimeSlots, 	subject_pk = @subs
                     WHERE `grade-section_pk` = @GradeSectionPK";
 
                 using (var cmd = new MySqlCommand(updateQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@TimeSlots", finalTimeSlots);
                     cmd.Parameters.AddWithValue("@GradeSectionPK", this.PK);
+
+                    MatchCollection matches = Regex.Matches(finalTimeSlots, @"\d+");
+
+                    HashSet<int> uniqueNumbers = new HashSet<int>();
+
+                    foreach (Match match in matches)
+                    {
+                        int value = int.Parse(match.Value);
+                        if (value != 0)
+                        {
+                            uniqueNumbers.Add(value);
+                        }
+                    }
+
+                    // 2️⃣ Sort the numbers and build the output string:
+                    string subs = string.Join(",", uniqueNumbers.OrderBy(n => n));
+
+                    cmd.Parameters.AddWithValue("@subs", subs);
 
                     cmd.ExecuteNonQuery();
                     Close();

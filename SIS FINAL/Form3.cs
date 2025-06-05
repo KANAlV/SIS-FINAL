@@ -108,7 +108,38 @@ namespace SIS_FINAL
 
                             int rowsInserted2 = command2.ExecuteNonQuery();
                             MessageBox.Show($"{rowsInserted2} guardian record inserted.");
-                            this.Close();
+
+                            //Inserting Grades
+                            if (comboBox2.SelectedValue.ToString() != null)
+                            {
+                                try
+                                {
+                                    string subPks = fetchSubPKs(int.Parse(comboBox2.SelectedValue.ToString()));
+                                    string[] subPKArray = subPks.Split(',');
+                                    foreach (string subPK in subPKArray)
+                                    {
+                                        string insertGradesQuery = @"
+                                        INSERT INTO grades
+                                        (student_pk, subject_pk)
+                                        VALUES
+                                        (@students_pk, @subject_pk);
+                                    ";
+
+                                        using (MySqlCommand command3 = new MySqlCommand(insertGradesQuery, connection))
+                                        {
+                                            command3.Parameters.AddWithValue("@students_pk", studentPK);
+                                            command3.Parameters.AddWithValue("@subject_pk", subPK);
+
+                                            int rowsInserted3 = command3.ExecuteNonQuery();
+                                            this.Close();
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("Error inserting student or guardian: " + ex.Message);
+                                }
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -214,6 +245,38 @@ namespace SIS_FINAL
                     // Optionally, you can store the path or the image bytes for later saving
                 }
             }
+        }
+
+        private string fetchSubPKs(int gs)
+        {
+            string query = @$"
+                SELECT subject_pk FROM `grade-section` WHERE `grade-section_pk` = {gs};
+            ";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string subPK = reader["subject_pk"].ToString();
+
+                                return subPK;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
+            return null;
         }
     }
 }
