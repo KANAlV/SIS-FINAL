@@ -2,6 +2,7 @@ using MySql.Data.MySqlClient;
 using Mysqlx.Resultset;
 using MySqlX.XDevAPI.Relational;
 using System.Data;
+using System.Runtime.Intrinsics.X86;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -12,6 +13,7 @@ namespace SIS_FINAL
     public partial class Form1 : Form
     {
         string connectionString = "server=localhost;database=sis_final;user=root;password=;";
+        List<double> finalGrades = new List<double>();
         int StuPage = 0;
         int gsPK = 0;
         public Form1()
@@ -512,6 +514,14 @@ namespace SIS_FINAL
                                     {
                                         gradeSummary(stuPK, x, reader["grade-sec_pk"].ToString());
                                     }
+                                    int divBy = this.finalGrades.Count;
+                                    double fgSum = 0;
+                                    foreach (var grade in finalGrades)
+                                    {
+                                        fgSum += grade;
+                                    }
+                                    dataGridView21.Rows.Add("", "", "", "", "Total:", $"{Math.Round((fgSum / divBy),2)}%");
+                                    this.finalGrades.Clear();
                                     dataGridView21.ClearSelection();
 
                                     // === Image loading ===
@@ -666,6 +676,7 @@ namespace SIS_FINAL
                                 double avg = count > 0 ? total / count : 0;
 
                                 dataGridView21.Rows.Add(subName, c1, c2, c3, c4, $"{avg:F2}%");
+                                this.finalGrades.Add(Math.Round(avg,2));
                             }
                         }
                     }

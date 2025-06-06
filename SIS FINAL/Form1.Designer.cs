@@ -211,6 +211,7 @@
             textBox5 = new TextBox();
             label39 = new Label();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            tabPage10 = new TabPage();
             tabControl1.SuspendLayout();
             general.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -447,9 +448,9 @@
             label18.Font = new Font("Segoe UI", 9F);
             label18.Location = new Point(207, 39);
             label18.Name = "label18";
-            label18.Size = new Size(40, 15);
+            label18.Size = new Size(44, 15);
             label18.TabIndex = 18;
-            label18.Text = "Sibulo";
+            label18.Text = "label18";
             // 
             // label15
             // 
@@ -467,9 +468,9 @@
             label17.Font = new Font("Segoe UI", 9F);
             label17.Location = new Point(100, 39);
             label17.Name = "label17";
-            label17.Size = new Size(67, 15);
+            label17.Size = new Size(44, 15);
             label17.TabIndex = 17;
-            label17.Text = "Ivan Winzle";
+            label17.Text = "label17";
             // 
             // label16
             // 
@@ -477,9 +478,9 @@
             label16.Font = new Font("Segoe UI", 9F);
             label16.Location = new Point(8, 39);
             label16.Name = "label16";
-            label16.Size = new Size(62, 15);
+            label16.Size = new Size(44, 15);
             label16.TabIndex = 16;
-            label16.Text = "Diocampo";
+            label16.Text = "label16";
             // 
             // groupBox1
             // 
@@ -896,6 +897,7 @@
             tabControl2.Controls.Add(tabPage1);
             tabControl2.Controls.Add(tabPage2);
             tabControl2.Controls.Add(tabPage5);
+            tabControl2.Controls.Add(tabPage10);
             tabControl2.Location = new Point(0, 12);
             tabControl2.Name = "tabControl2";
             tabControl2.SelectedIndex = 0;
@@ -2104,6 +2106,16 @@
             label39.TabIndex = 7;
             label39.Text = "Writen Works";
             // 
+            // tabPage10
+            // 
+            tabPage10.Location = new Point(4, 24);
+            tabPage10.Name = "tabPage10";
+            tabPage10.Padding = new Padding(3);
+            tabPage10.Size = new Size(792, 405);
+            tabPage10.TabIndex = 3;
+            tabPage10.Text = "Discip. Rec.";
+            tabPage10.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2349,5 +2361,6 @@
         private Label label63;
         private Label label62;
         private CheckBox checkBox1;
+        private TabPage tabPage10;
     }
 }
