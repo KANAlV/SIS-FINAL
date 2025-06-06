@@ -80,6 +80,7 @@
             Column5 = new DataGridViewTextBoxColumn();
             Column6 = new DataGridViewTextBoxColumn();
             Discip_Rec = new TabPage();
+            dataGridView25 = new DataGridView();
             dataGridView1 = new DataGridView();
             student_index = new DataGridViewTextBoxColumn();
             stuStatus = new DataGridViewTextBoxColumn();
@@ -210,8 +211,40 @@
             dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
             textBox5 = new TextBox();
             label39 = new Label();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             tabPage10 = new TabPage();
+            groupBox3 = new GroupBox();
+            label73 = new Label();
+            label72 = new Label();
+            label71 = new Label();
+            richTextBox1 = new RichTextBox();
+            dataGridView24 = new DataGridView();
+            Column10 = new DataGridViewTextBoxColumn();
+            comboBox3 = new ComboBox();
+            comboBox1 = new ComboBox();
+            label70 = new Label();
+            label69 = new Label();
+            label68 = new Label();
+            label66 = new Label();
+            label67 = new Label();
+            button10 = new Button();
+            dataGridView23 = new DataGridView();
+            Column7 = new DataGridViewTextBoxColumn();
+            Column9 = new DataGridViewTextBoxColumn();
+            Column8 = new DataGridViewTextBoxColumn();
+            dataGridView22 = new DataGridView();
+            dataGridViewTextBoxColumn33 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn34 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn35 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn36 = new DataGridViewTextBoxColumn();
+            Column11 = new DataGridViewTextBoxColumn();
+            button9 = new Button();
+            textBox8 = new TextBox();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            richTextBox2 = new RichTextBox();
+            Column15 = new DataGridViewTextBoxColumn();
+            Column12 = new DataGridViewTextBoxColumn();
+            Column13 = new DataGridViewTextBoxColumn();
+            Column14 = new DataGridViewTextBoxColumn();
             tabControl1.SuspendLayout();
             general.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -222,6 +255,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             grades.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView21).BeginInit();
+            Discip_Rec.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView25).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl2.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -249,6 +284,11 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView20).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView18).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView7).BeginInit();
+            tabPage10.SuspendLayout();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView24).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView23).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView22).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -795,12 +835,29 @@
             // 
             // Discip_Rec
             // 
+            Discip_Rec.Controls.Add(richTextBox2);
+            Discip_Rec.Controls.Add(dataGridView25);
             Discip_Rec.Location = new Point(4, 24);
             Discip_Rec.Name = "Discip_Rec";
             Discip_Rec.Size = new Size(310, 358);
             Discip_Rec.TabIndex = 3;
             Discip_Rec.Text = "Discip. Rec.";
             Discip_Rec.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView25
+            // 
+            dataGridView25.AllowUserToAddRows = false;
+            dataGridView25.AllowUserToDeleteRows = false;
+            dataGridView25.AllowUserToResizeColumns = false;
+            dataGridView25.AllowUserToResizeRows = false;
+            dataGridView25.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView25.Columns.AddRange(new DataGridViewColumn[] { Column15, Column12, Column13, Column14 });
+            dataGridView25.Location = new Point(3, 5);
+            dataGridView25.Name = "dataGridView25";
+            dataGridView25.ReadOnly = true;
+            dataGridView25.Size = new Size(304, 242);
+            dataGridView25.TabIndex = 0;
+            dataGridView25.CellClick += dataGridView25_CellClick;
             // 
             // dataGridView1
             // 
@@ -1091,7 +1148,7 @@
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(792, 405);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "Schedule";
+            tabPage2.Text = "Grd & Sec / Schedule";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // label38
@@ -1299,7 +1356,7 @@
             tabPage5.Padding = new Padding(3);
             tabPage5.Size = new Size(792, 405);
             tabPage5.TabIndex = 2;
-            tabPage5.Text = "Grades";
+            tabPage5.Text = "Input Grades";
             tabPage5.UseVisualStyleBackColor = true;
             // 
             // checkBox1
@@ -2108,13 +2165,313 @@
             // 
             // tabPage10
             // 
+            tabPage10.Controls.Add(groupBox3);
+            tabPage10.Controls.Add(dataGridView22);
+            tabPage10.Controls.Add(button9);
+            tabPage10.Controls.Add(textBox8);
             tabPage10.Location = new Point(4, 24);
             tabPage10.Name = "tabPage10";
             tabPage10.Padding = new Padding(3);
             tabPage10.Size = new Size(792, 405);
             tabPage10.TabIndex = 3;
-            tabPage10.Text = "Discip. Rec.";
+            tabPage10.Text = "Create Disciplinary Rec.";
             tabPage10.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(label73);
+            groupBox3.Controls.Add(label72);
+            groupBox3.Controls.Add(label71);
+            groupBox3.Controls.Add(richTextBox1);
+            groupBox3.Controls.Add(dataGridView24);
+            groupBox3.Controls.Add(comboBox3);
+            groupBox3.Controls.Add(comboBox1);
+            groupBox3.Controls.Add(label70);
+            groupBox3.Controls.Add(label69);
+            groupBox3.Controls.Add(label68);
+            groupBox3.Controls.Add(label66);
+            groupBox3.Controls.Add(label67);
+            groupBox3.Controls.Add(button10);
+            groupBox3.Controls.Add(dataGridView23);
+            groupBox3.Location = new Point(325, 6);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(459, 393);
+            groupBox3.TabIndex = 13;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Create Disciplinary Record";
+            // 
+            // label73
+            // 
+            label73.AutoSize = true;
+            label73.Font = new Font("Segoe UI", 10F);
+            label73.Location = new Point(355, 19);
+            label73.Name = "label73";
+            label73.Size = new Size(53, 19);
+            label73.TabIndex = 53;
+            label73.Text = "label73";
+            label73.Visible = false;
+            // 
+            // label72
+            // 
+            label72.AutoSize = true;
+            label72.ForeColor = SystemColors.ButtonShadow;
+            label72.Location = new Point(17, 364);
+            label72.Name = "label72";
+            label72.Size = new Size(206, 15);
+            label72.TabIndex = 52;
+            label72.Text = "Double Click the row to remove issue.";
+            // 
+            // label71
+            // 
+            label71.AutoSize = true;
+            label71.Location = new Point(207, 70);
+            label71.Name = "label71";
+            label71.Size = new Size(61, 15);
+            label71.TabIndex = 51;
+            label71.Text = "Comment";
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.BorderStyle = BorderStyle.FixedSingle;
+            richTextBox1.Location = new Point(207, 88);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(246, 132);
+            richTextBox1.TabIndex = 50;
+            richTextBox1.Text = "";
+            // 
+            // dataGridView24
+            // 
+            dataGridView24.AllowUserToAddRows = false;
+            dataGridView24.AllowUserToDeleteRows = false;
+            dataGridView24.AllowUserToResizeColumns = false;
+            dataGridView24.AllowUserToResizeRows = false;
+            dataGridView24.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView24.Columns.AddRange(new DataGridViewColumn[] { Column10 });
+            dataGridView24.Location = new Point(17, 70);
+            dataGridView24.Name = "dataGridView24";
+            dataGridView24.ReadOnly = true;
+            dataGridView24.Size = new Size(171, 150);
+            dataGridView24.TabIndex = 49;
+            dataGridView24.CellClick += dataGridView24_CellClick;
+            // 
+            // Column10
+            // 
+            Column10.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Column10.HeaderText = "issue";
+            Column10.Name = "Column10";
+            Column10.ReadOnly = true;
+            // 
+            // comboBox3
+            // 
+            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Location = new Point(241, 41);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(167, 23);
+            comboBox3.TabIndex = 48;
+            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
+            // 
+            // comboBox1
+            // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Low", "Medium", "High" });
+            comboBox1.Location = new Point(77, 41);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(78, 23);
+            comboBox1.TabIndex = 47;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // label70
+            // 
+            label70.AutoSize = true;
+            label70.Location = new Point(174, 46);
+            label70.Name = "label70";
+            label70.Size = new Size(61, 15);
+            label70.TabIndex = 46;
+            label70.Text = "Category: ";
+            // 
+            // label69
+            // 
+            label69.AutoSize = true;
+            label69.Location = new Point(17, 46);
+            label69.Name = "label69";
+            label69.Size = new Size(54, 15);
+            label69.TabIndex = 14;
+            label69.Text = "Severity: ";
+            // 
+            // label68
+            // 
+            label68.AutoSize = true;
+            label68.Font = new Font("Segoe UI", 10F);
+            label68.Location = new Point(406, 19);
+            label68.Name = "label68";
+            label68.Size = new Size(53, 19);
+            label68.TabIndex = 45;
+            label68.Text = "label68";
+            label68.Visible = false;
+            // 
+            // label66
+            // 
+            label66.AutoSize = true;
+            label66.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label66.Location = new Point(17, 19);
+            label66.Name = "label66";
+            label66.Size = new Size(60, 17);
+            label66.TabIndex = 44;
+            label66.Text = "Student:";
+            // 
+            // label67
+            // 
+            label67.AutoSize = true;
+            label67.Font = new Font("Segoe UI", 10F);
+            label67.Location = new Point(80, 19);
+            label67.Name = "label67";
+            label67.Size = new Size(53, 19);
+            label67.TabIndex = 43;
+            label67.Text = "label67";
+            label67.Visible = false;
+            // 
+            // button10
+            // 
+            button10.Location = new Point(378, 364);
+            button10.Name = "button10";
+            button10.Size = new Size(75, 23);
+            button10.TabIndex = 1;
+            button10.Text = "Save";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
+            // 
+            // dataGridView23
+            // 
+            dataGridView23.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView23.Columns.AddRange(new DataGridViewColumn[] { Column7, Column9, Column8 });
+            dataGridView23.Location = new Point(17, 239);
+            dataGridView23.Name = "dataGridView23";
+            dataGridView23.Size = new Size(436, 119);
+            dataGridView23.TabIndex = 0;
+            dataGridView23.CellDoubleClick += dataGridView23_CellDoubleClick;
+            // 
+            // Column7
+            // 
+            Column7.HeaderText = "Category";
+            Column7.Name = "Column7";
+            // 
+            // Column9
+            // 
+            Column9.HeaderText = "Severity";
+            Column9.Name = "Column9";
+            Column9.Width = 60;
+            // 
+            // Column8
+            // 
+            Column8.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Column8.HeaderText = "Issue";
+            Column8.Name = "Column8";
+            // 
+            // dataGridView22
+            // 
+            dataGridView22.AllowUserToAddRows = false;
+            dataGridView22.AllowUserToDeleteRows = false;
+            dataGridView22.AllowUserToResizeRows = false;
+            dataGridView22.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView22.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn33, dataGridViewTextBoxColumn34, dataGridViewTextBoxColumn35, dataGridViewTextBoxColumn36, Column11 });
+            dataGridView22.Location = new Point(8, 34);
+            dataGridView22.Name = "dataGridView22";
+            dataGridView22.ReadOnly = true;
+            dataGridView22.Size = new Size(311, 365);
+            dataGridView22.TabIndex = 12;
+            dataGridView22.CellClick += dataGridView22_CellClick;
+            // 
+            // dataGridViewTextBoxColumn33
+            // 
+            dataGridViewTextBoxColumn33.HeaderText = "index";
+            dataGridViewTextBoxColumn33.Name = "dataGridViewTextBoxColumn33";
+            dataGridViewTextBoxColumn33.ReadOnly = true;
+            dataGridViewTextBoxColumn33.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn34
+            // 
+            dataGridViewTextBoxColumn34.HeaderText = "Student No..";
+            dataGridViewTextBoxColumn34.Name = "dataGridViewTextBoxColumn34";
+            dataGridViewTextBoxColumn34.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn35
+            // 
+            dataGridViewTextBoxColumn35.HeaderText = "Surname";
+            dataGridViewTextBoxColumn35.Name = "dataGridViewTextBoxColumn35";
+            dataGridViewTextBoxColumn35.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn36
+            // 
+            dataGridViewTextBoxColumn36.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumn36.HeaderText = "First Name";
+            dataGridViewTextBoxColumn36.Name = "dataGridViewTextBoxColumn36";
+            dataGridViewTextBoxColumn36.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            Column11.HeaderText = "Column11";
+            Column11.Name = "Column11";
+            Column11.ReadOnly = true;
+            Column11.Visible = false;
+            // 
+            // button9
+            // 
+            button9.Location = new Point(153, 6);
+            button9.Name = "button9";
+            button9.Size = new Size(24, 23);
+            button9.TabIndex = 10;
+            button9.Text = "↻";
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
+            // textBox8
+            // 
+            textBox8.ForeColor = SystemColors.GrayText;
+            textBox8.Location = new Point(8, 6);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(139, 23);
+            textBox8.TabIndex = 9;
+            textBox8.Text = "Search...";
+            textBox8.Click += textBox8_Click;
+            textBox8.TextChanged += textBox8_TextChanged;
+            // 
+            // richTextBox2
+            // 
+            richTextBox2.Location = new Point(3, 253);
+            richTextBox2.Name = "richTextBox2";
+            richTextBox2.ReadOnly = true;
+            richTextBox2.Size = new Size(304, 96);
+            richTextBox2.TabIndex = 1;
+            richTextBox2.Text = "";
+            // 
+            // Column15
+            // 
+            Column15.HeaderText = "index";
+            Column15.Name = "Column15";
+            Column15.ReadOnly = true;
+            Column15.Visible = false;
+            // 
+            // Column12
+            // 
+            Column12.HeaderText = "Category";
+            Column12.Name = "Column12";
+            Column12.ReadOnly = true;
+            // 
+            // Column13
+            // 
+            Column13.HeaderText = "Severity";
+            Column13.Name = "Column13";
+            Column13.ReadOnly = true;
+            Column13.Width = 60;
+            // 
+            // Column14
+            // 
+            Column14.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Column14.HeaderText = "Issue";
+            Column14.Name = "Column14";
+            Column14.ReadOnly = true;
             // 
             // Form1
             // 
@@ -2139,6 +2496,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             grades.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView21).EndInit();
+            Discip_Rec.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView25).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabControl2.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -2173,6 +2532,13 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView20).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView18).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView7).EndInit();
+            tabPage10.ResumeLayout(false);
+            tabPage10.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView24).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView23).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView22).EndInit();
             ResumeLayout(false);
         }
 
@@ -2362,5 +2728,38 @@
         private Label label62;
         private CheckBox checkBox1;
         private TabPage tabPage10;
+        private DataGridView dataGridView22;
+        private Button button9;
+        private TextBox textBox8;
+        private GroupBox groupBox3;
+        private DataGridView dataGridView23;
+        private Button button10;
+        private DataGridViewTextBoxColumn Column7;
+        private DataGridViewTextBoxColumn Column9;
+        private DataGridViewTextBoxColumn Column8;
+        private Label label68;
+        private Label label66;
+        private Label label67;
+        private ComboBox comboBox1;
+        private Label label70;
+        private Label label69;
+        private ComboBox comboBox3;
+        private DataGridView dataGridView24;
+        private DataGridViewTextBoxColumn Column10;
+        private Label label71;
+        private RichTextBox richTextBox1;
+        private Label label72;
+        private DataGridView dataGridView25;
+        private Label label73;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn33;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn34;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn35;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn36;
+        private DataGridViewTextBoxColumn Column11;
+        private RichTextBox richTextBox2;
+        private DataGridViewTextBoxColumn Column15;
+        private DataGridViewTextBoxColumn Column12;
+        private DataGridViewTextBoxColumn Column13;
+        private DataGridViewTextBoxColumn Column14;
     }
 }

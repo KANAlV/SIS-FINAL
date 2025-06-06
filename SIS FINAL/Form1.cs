@@ -1,10 +1,14 @@
 using MySql.Data.MySqlClient;
+using Mysqlx.Notice;
 using Mysqlx.Resultset;
 using MySqlX.XDevAPI.Relational;
+using Org.BouncyCastle.Bcpg;
 using System.Data;
+using System.Diagnostics;
 using System.Runtime.Intrinsics.X86;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static Mysqlx.Error.Types;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -23,48 +27,18 @@ namespace SIS_FINAL
             studentQuery();
             sectionQuery();
             stuQueryGrd();
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.MultiSelect = false;
-            dataGridView2.RowHeadersVisible = false;
-            dataGridView2.MultiSelect = false;
-            dataGridView3.RowHeadersVisible = false;
-            dataGridView3.MultiSelect = false;
-            dataGridView4.RowHeadersVisible = false;
-            dataGridView4.MultiSelect = false;
-            dataGridView5.RowHeadersVisible = false;
-            dataGridView5.MultiSelect = false;
-            dataGridView6.RowHeadersVisible = false;
-            dataGridView6.MultiSelect = false;
-            dataGridView7.RowHeadersVisible = false;
-            dataGridView7.MultiSelect = false;
-            dataGridView8.RowHeadersVisible = false;
-            dataGridView8.MultiSelect = false;
-            dataGridView9.RowHeadersVisible = false;
-            dataGridView9.MultiSelect = false;
-            dataGridView10.RowHeadersVisible = false;
-            dataGridView10.MultiSelect = false;
-            dataGridView11.RowHeadersVisible = false;
-            dataGridView11.MultiSelect = false;
-            dataGridView12.RowHeadersVisible = false;
-            dataGridView12.MultiSelect = false;
-            dataGridView13.RowHeadersVisible = false;
-            dataGridView13.MultiSelect = false;
-            dataGridView14.RowHeadersVisible = false;
-            dataGridView14.MultiSelect = false;
-            dataGridView15.RowHeadersVisible = false;
-            dataGridView15.MultiSelect = false;
-            dataGridView16.RowHeadersVisible = false;
-            dataGridView16.MultiSelect = false;
-            dataGridView17.RowHeadersVisible = false;
-            dataGridView17.MultiSelect = false;
-            dataGridView18.RowHeadersVisible = false;
-            dataGridView18.MultiSelect = false;
-            dataGridView19.RowHeadersVisible = false;
-            dataGridView19.MultiSelect = false;
-            dataGridView20.RowHeadersVisible = false;
-            dataGridView20.MultiSelect = false;
-            dataGridView21.RowHeadersVisible = false;
-            dataGridView21.MultiSelect = false;
+            stuQueryDisc();
+            for (int i = 1; i <= 25; i++)
+            {
+                string dgvName = $"dataGridView{i}";
+                Control[] foundControls = this.Controls.Find(dgvName, true);
+                if (foundControls.Length > 0 && foundControls[0] is DataGridView dgv)
+                {
+                    dgv.RowHeadersVisible = false;
+                    dgv.MultiSelect = false;
+                }
+            }
+
             foreach (DataGridViewColumn column in dataGridView2.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -190,15 +164,12 @@ namespace SIS_FINAL
             int maxpage = pageCounter("grade-section");
             string query;
 
-            // Check if the search box is empty or contains "Search..."
             if (string.IsNullOrEmpty(searchText) || searchText.Equals("Search...", StringComparison.OrdinalIgnoreCase))
             {
-                // Normal query (no WHERE)
                 query = "SELECT * FROM `grade-section`";
             }
             else
             {
-                // Search query with WHERE
                 query = "SELECT * FROM `grade-section` WHERE `grade-sec` LIKE @searchText OR `section_name` LIKE @searchText";
             }
 
@@ -208,7 +179,6 @@ namespace SIS_FINAL
                 {
                     if (!string.IsNullOrEmpty(searchText) && !searchText.Equals("Search...", StringComparison.OrdinalIgnoreCase))
                     {
-                        // Add parameter for the WHERE clause
                         command.Parameters.AddWithValue("@searchText", $"%{searchText}%");
                     }
 
@@ -243,7 +213,6 @@ namespace SIS_FINAL
             int maxpage = pageCounter("students");
             string query;
 
-            // Check if the search box is empty or contains "Search..."
             if (string.IsNullOrEmpty(textBox1.Text.Trim()) || textBox1.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
             {
                 // Normal query (no WHERE)
@@ -292,12 +261,11 @@ namespace SIS_FINAL
                     {
                         if (!string.IsNullOrEmpty(textBox1.Text.Trim()) && !textBox1.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
                         {
-                            // Add parameter for the WHERE clause
                             command.Parameters.AddWithValue("@searchText", $"%{textBox1.Text.Trim()}%");
                         }
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            dataGridView1.Rows.Clear(); // Clear existing rows before adding new
+                            dataGridView1.Rows.Clear();
 
                             while (reader.Read())
                             {
@@ -307,7 +275,6 @@ namespace SIS_FINAL
                                 string fn = reader["first_name"].ToString();
                                 string gndr = reader["gender"].ToString();
 
-                                // Grade-section fields may be null if no matching record
                                 string grdSec = reader["grade-sec"] == DBNull.Value ? "N/a" : reader["grade-sec"].ToString();
 
                                 string status = reader["enrolled"].ToString();
@@ -342,12 +309,11 @@ namespace SIS_FINAL
             subjectQuery(dataGridView9, comboBox2.Text);
             string query;
 
-            // Check if the search box is empty or contains "Search..."
             if (string.IsNullOrEmpty(textBox4.Text.Trim()) || textBox4.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
             {
                 // Normal query
                 query = @$"
-                    SELECT student_pk, students_no, surname, first_name FROM students WHERE `grade-sec_pk` = @spk;
+                    SELECT student_pk, students_no, surname, first_name FROM students WHERE `grade-sec_pk` = @spk AND enrolled = Enrolled;
                 ";
             }
             else
@@ -356,6 +322,7 @@ namespace SIS_FINAL
                 query = @$"
                     SELECT student_pk, students_no, surname, first_name FROM students
                     WHERE `grade-sec_pk` = @spk
+                        AND enrolled = Enrolled
                         AND (students_no LIKE @searchText OR
                         surname LIKE @searchText OR 
                         first_name LIKE @searchText);
@@ -372,13 +339,12 @@ namespace SIS_FINAL
                     {
                         if (!string.IsNullOrEmpty(textBox4.Text.Trim()) && !textBox4.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
                         {
-                            // Add parameter for the WHERE clause
                             command.Parameters.AddWithValue("@searchText", $"%{textBox4.Text.Trim()}%");
                         }
                         command.Parameters.AddWithValue("@spk", comboBox2.SelectedValue.ToString());
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            dataGridView7.Rows.Clear(); // Clear existing rows before adding new
+                            dataGridView7.Rows.Clear();
 
                             while (reader.Read())
                             {
@@ -400,6 +366,66 @@ namespace SIS_FINAL
             }
         }
 
+        private void stuQueryDisc()
+        {
+            dataGridView22.Rows.Clear();
+            string query;
+
+            if (string.IsNullOrEmpty(textBox8.Text.Trim()) || textBox8.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
+            {
+                // Normal query
+                query = @$"
+                    SELECT student_pk, students_no, surname, first_name, `grade-sec_pk` FROM students WHERE enrolled = Enrolled;
+                ";
+            }
+            else
+            {
+                // Search query
+                query = @$"
+                    SELECT student_pk, students_no, surname, first_name, `grade-sec_pk` FROM students
+                    WHERE enrolled = Enrolled
+                        AND (students_no LIKE @searchText OR
+                        surname LIKE @searchText OR 
+                        first_name LIKE @searchText);
+                ";
+            }
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        if (!string.IsNullOrEmpty(textBox8.Text.Trim()) && !textBox8.Text.Trim().Equals("Search...", StringComparison.OrdinalIgnoreCase))
+                        {
+                            command.Parameters.AddWithValue("@searchText", $"%{textBox8.Text.Trim()}%");
+                        }
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            dataGridView22.Rows.Clear();
+
+                            while (reader.Read())
+                            {
+                                string stuPK = reader["student_pk"].ToString();
+                                string stuNo = reader["students_no"].ToString();
+                                string sur = reader["surname"].ToString();
+                                string fn = reader["first_name"].ToString();
+                                string gsPK = reader["grade-sec_pk"].ToString();
+
+                                dataGridView22.Rows.Add(stuPK, stuNo, sur, fn, gsPK);
+                            }
+                        }
+                    }
+                    dataGridView22.ClearSelection();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
@@ -429,7 +455,6 @@ namespace SIS_FINAL
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
-                // Assuming PK is in the first column (index 0)
                 var pkValue = row.Cells[0].Value;
                 if (pkValue != null)
                 {
@@ -520,11 +545,14 @@ namespace SIS_FINAL
                                     {
                                         fgSum += grade;
                                     }
-                                    dataGridView21.Rows.Add("", "", "", "", "Total:", $"{Math.Round((fgSum / divBy),2)}%");
+                                    dataGridView21.Rows.Add("", "", "", "", "Total:", $"{Math.Round((fgSum / divBy), 2)}%");
                                     this.finalGrades.Clear();
                                     dataGridView21.ClearSelection();
 
-                                    // === Image loading ===
+                                    //Disciplinary
+                                    discDisplayStu(stuPK, reader["grade-sec_pk"].ToString());
+
+                                    //Image loading
                                     if (reader["photo"] != DBNull.Value)
                                     {
                                         byte[] photoBytes = (byte[])reader["photo"];
@@ -581,7 +609,6 @@ namespace SIS_FINAL
                         {
                             if (readerGrd.Read())
                             {
-                                // Parse weights from the reader
                                 string subName = readerGrd["subject_name"].ToString();
                                 double.TryParse(readerGrd["WW"]?.ToString(), out double ww);
                                 double.TryParse(readerGrd["PT"]?.ToString(), out double pt);
@@ -594,7 +621,6 @@ namespace SIS_FINAL
                                 textBox6.Text = readerGrd["PT"].ToString();
                                 textBox7.Text = readerGrd["QE"].ToString();
 
-                                // List of columns and their associated controls
                                 var columns = new (string Column, DataGridView DGV)[]
                                 {
                                     ("WW_1", dataGridView8),
@@ -611,7 +637,6 @@ namespace SIS_FINAL
                                     ("QE_4", dataGridView18)
                                 };
 
-                                // Store intermediate results for weighted totals
                                 double[] wwGrades = new double[4];
                                 double[] ptGrades = new double[4];
                                 double[] qeGrades = new double[4];
@@ -626,7 +651,6 @@ namespace SIS_FINAL
 
                                         double grade = Math.Round(computeGrade(cellData), 2);
 
-                                        // Determine which index to store
                                         int index = int.Parse(column.Substring(3)) - 1;
 
                                         if (column.StartsWith("WW_"))
@@ -676,7 +700,7 @@ namespace SIS_FINAL
                                 double avg = count > 0 ? total / count : 0;
 
                                 dataGridView21.Rows.Add(subName, c1, c2, c3, c4, $"{avg:F2}%");
-                                this.finalGrades.Add(Math.Round(avg,2));
+                                this.finalGrades.Add(Math.Round(avg, 2));
                             }
                         }
                     }
@@ -784,7 +808,6 @@ namespace SIS_FINAL
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             using (MySqlCommand command = new MySqlCommand(countQuery, connection))
             {
-                // Add parameter if needed
                 if (countQuery.Contains("@searchText"))
                 {
                     string searchText = "";
@@ -809,7 +832,6 @@ namespace SIS_FINAL
 
             int pageSize = 20;
             int totalPages = (int)Math.Ceiling((double)totalRows / pageSize);
-            //MessageBox.Show(totalPages.ToString());
             return totalPages;
         }
 
@@ -850,7 +872,6 @@ namespace SIS_FINAL
                                     }
                                     catch
                                     {
-                                        // Handle invalid color formats gracefully
                                         DGV.Rows[rowIndex].Cells[1].Style.BackColor = ColorTranslator.FromHtml("FFFFFF");
                                     }
                                 }
@@ -870,7 +891,6 @@ namespace SIS_FINAL
         {
             DGV.Rows.Clear();
 
-            // Collect all subject_pk values into a list
             List<string> subPKList = new List<string>();
 
             string selectQuery = "SELECT subject_pk FROM `grade-section` WHERE `grade-sec` = @spk";
@@ -881,7 +901,6 @@ namespace SIS_FINAL
                 {
                     connection.Open();
 
-                    // First query: get subject_pk(s) from grade-section
                     using (MySqlCommand selectCommand = new MySqlCommand(selectQuery, connection))
                     {
                         selectCommand.Parameters.AddWithValue("@spk", spk);
@@ -901,10 +920,9 @@ namespace SIS_FINAL
                                 }
                             }
 
-                            reader.Close(); // Close outer reader before nested queries
+                            reader.Close();
                         }
 
-                        // Now fetch each subject from the subjects table
                         foreach (string subPK in subPKList)
                         {
                             string selectQuery1 = "SELECT * FROM subjects WHERE subject_pk = @subpk";
@@ -918,7 +936,7 @@ namespace SIS_FINAL
                                     if (reader1.Read())
                                     {
                                         string sn = reader1["subject_name"].ToString();
-                                        string c = reader1["color"].ToString(); // stored hex string like "#FF0000"
+                                        string c = reader1["color"].ToString();
                                         string sPK = reader1["subject_pk"].ToString();
 
                                         int rowIndex = DGV.Rows.Add(sPK, "", sn);
@@ -932,7 +950,6 @@ namespace SIS_FINAL
                                             }
                                             catch
                                             {
-                                                // Default to white background if parsing fails
                                                 DGV.Rows[rowIndex].Cells[1].Style.BackColor = ColorTranslator.FromHtml("#FFFFFF");
                                             }
                                         }
@@ -969,10 +986,8 @@ namespace SIS_FINAL
                     {
                         string timeData = result.ToString();
 
-                        // Parse the timeData manually
                         List<List<int>> parsedData = ParseTimeData(timeData);
 
-                        // Fill the DataGridView
                         for (int rowIndex = 0; rowIndex < parsedData.Count && rowIndex < DGV.Rows.Count; rowIndex++)
                         {
                             var row = DGV.Rows[rowIndex];
@@ -1005,15 +1020,12 @@ namespace SIS_FINAL
 
         private List<List<int>> ParseTimeData(string timeData)
         {
-            // Remove whitespace
             timeData = timeData.Replace(" ", "").Replace("\r", "").Replace("\n", "");
 
-            // Remove outer brackets
             timeData = timeData.TrimStart('[').TrimEnd(']');
 
             var rows = new List<List<int>>();
 
-            // Split rows
             string[] rowStrings = timeData.Split(new string[] { "],[" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var rowStr in rowStrings)
@@ -1030,7 +1042,7 @@ namespace SIS_FINAL
                     }
                     else
                     {
-                        intList.Add(0); // default if parsing fails
+                        intList.Add(0);
                     }
                 }
 
@@ -1039,8 +1051,6 @@ namespace SIS_FINAL
 
             return rows;
         }
-
-        // Helper function to get the color from subject_pk
         private string GetColorHexBySubjectPK(int subjectPK)
         {
             using (var conn = new MySqlConnection(connectionString))
@@ -1113,14 +1123,27 @@ namespace SIS_FINAL
             {
                 DataGridViewRow row = dataGridView7.Rows[e.RowIndex];
 
-                // Assuming PK is in the first column (index 0)
                 this.dgv7 = int.Parse(row.Cells[0].Value.ToString());
                 label62.Visible = true;
                 label62.Text = $"{row.Cells[2].Value.ToString()}, {row.Cells[3].Value.ToString()}";
-                if (this.dgv9 != 0)
-                {
-                    loadGrades();
-                }
+                this.dgv9 = 0;
+                label65.Visible = false;
+                dataGridView8.Rows.Clear();
+                dataGridView14.Rows.Clear();
+                dataGridView17.Rows.Clear();
+                dataGridView20.Rows.Clear();
+                dataGridView10.Rows.Clear();
+                dataGridView13.Rows.Clear();
+                dataGridView16.Rows.Clear();
+                dataGridView19.Rows.Clear();
+                dataGridView11.Rows.Clear();
+                dataGridView12.Rows.Clear();
+                dataGridView15.Rows.Clear();
+                dataGridView18.Rows.Clear();
+                textBox5.Clear();
+                textBox6.Clear();
+                textBox7.Clear();
+                tabControl3.Enabled = false;
             }
         }
 
@@ -1171,7 +1194,6 @@ namespace SIS_FINAL
                         {
                             if (reader.Read())
                             {
-                                // Parse weights from the reader
                                 double.TryParse(reader["WW"]?.ToString(), out double ww);
                                 double.TryParse(reader["PT"]?.ToString(), out double pt);
                                 double.TryParse(reader["QE"]?.ToString(), out double qe);
@@ -1183,7 +1205,6 @@ namespace SIS_FINAL
                                 textBox6.Text = reader["PT"].ToString();
                                 textBox7.Text = reader["QE"].ToString();
 
-                                // List of columns and their associated controls
                                 var columns = new (string Column, DataGridView DGV, Label Label)[]
                                 {
                                     ("WW_1", dataGridView8, label49),
@@ -1200,7 +1221,6 @@ namespace SIS_FINAL
                                     ("QE_4", dataGridView18, label60)
                                 };
 
-                                // Store intermediate results for weighted totals
                                 double[] wwGrades = new double[4];
                                 double[] ptGrades = new double[4];
                                 double[] qeGrades = new double[4];
@@ -1213,10 +1233,9 @@ namespace SIS_FINAL
                                     {
                                         loadCell(cellData, dgv);
 
-                                        double grade = computeGrade(cellData); // keep grade as double
-                                        label.Text = $"{Math.Round(grade, 2)}%"; // rounding only here!
+                                        double grade = computeGrade(cellData);
+                                        label.Text = $"{Math.Round(grade, 2)}%";
 
-                                        // Determine which index to store
                                         int index = int.Parse(column.Substring(3)) - 1;
 
                                         if (column.StartsWith("WW_"))
@@ -1239,13 +1258,10 @@ namespace SIS_FINAL
                                     }
                                 }
 
-                                // Now compute weighted totals per set (_1 to _4)
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    // Use unrounded values for weighted total
                                     double weightedTotal = (wwGrades[i] * ww) + (ptGrades[i] * pt) + (qeGrades[i] * qe);
 
-                                    // Round only at display time
                                     string formattedTotal = $"{Math.Round(weightedTotal, 2):F2}%";
 
                                     switch (i)
@@ -1298,12 +1314,10 @@ namespace SIS_FINAL
                 double total = double.Parse(score[0]);
                 double obtained = double.Parse(score[1]);
 
-                // Multiply first to avoid losing precision (numerator * 100) / denominator
                 double percentage = (obtained * 100) / total;
                 myList.Add(percentage);
             }
 
-            // Compute the average
             double average = 0;
             if (myList.Count > 0)
             {
@@ -1387,18 +1401,14 @@ namespace SIS_FINAL
 
             foreach (DataGridViewRow row in dgv.Rows)
             {
-                // Skip the new row at the bottom if AllowUserToAddRows is enabled
                 if (row.IsNewRow) continue;
 
-                // Get cell values
                 string cell0 = row.Cells[0].Value?.ToString() ?? "";
                 string cell1 = row.Cells[1].Value?.ToString() ?? "";
 
-                // Format them as "cell0/cell1"
                 rowData.Add($"{cell0}/{cell1}");
             }
 
-            // Join all rows with commas
             string result = string.Join(",", rowData);
             return result;
         }
@@ -1438,7 +1448,6 @@ namespace SIS_FINAL
         {
             if (e.Control is System.Windows.Forms.TextBox textBox)
             {
-                // Remove any previously attached event handler to avoid duplication
                 textBox.TextChanged -= TextBox_TextChanged_FilterNumbers;
                 textBox.TextChanged += TextBox_TextChanged_FilterNumbers;
             }
@@ -1454,6 +1463,377 @@ namespace SIS_FINAL
                 {
                     textBox.Text = filteredText;
                     textBox.SelectionStart = Math.Min(selectionStart, textBox.Text.Length);
+                }
+            }
+        }
+
+        //Diciplinary
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+            stuQueryDisc();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            stuQueryDisc();
+        }
+
+        private void dataGridView22_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView22.Rows[e.RowIndex];
+
+                this.dgv7 = int.Parse(row.Cells[0].Value.ToString());
+                label67.Visible = true;
+                label67.Text = $"{row.Cells[2].Value.ToString()}, {row.Cells[3].Value.ToString()}";
+                label68.Text = row.Cells[0].Value.ToString();
+                label73.Text = row.Cells[4].Value.ToString();
+            }
+        }
+
+        private void textBox8_Click(object sender, EventArgs e)
+        {
+            if (textBox8.Text == "Search...")
+            {
+                textBox8.ForeColor = Color.Black;
+                textBox8.Clear();
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox3.Items.Clear();
+            comboBox3.Items.Add("");
+            switch (comboBox1.Text)
+            {
+                case "Low":
+                    comboBox3.Items.Add("Disruptive Behavior");
+                    comboBox3.Items.Add("Attendance Issues");
+                    comboBox3.Items.Add("Academic Dishonesty");
+                    comboBox3.Items.Add("Verbal Aggression/Harassment");
+                    break;
+                case "Medium":
+                    comboBox3.Items.Add("Disruptive Behavior");
+                    comboBox3.Items.Add("Attendance Issues");
+                    comboBox3.Items.Add("Defiance/Noncompliance");
+                    comboBox3.Items.Add("Academic Dishonesty");
+                    comboBox3.Items.Add("Physical Aggression");
+                    comboBox3.Items.Add("Vandalism/Theft");
+                    comboBox3.Items.Add("Substance-Related Offenses");
+                    break;
+                case "High":
+                    comboBox3.Items.Add("Physical Aggression");
+                    comboBox3.Items.Add("Verbal Aggression/Harassment");
+                    comboBox3.Items.Add("Vandalism/Theft");
+                    comboBox3.Items.Add("Substance-Related Offenses");
+                    comboBox3.Items.Add("Weapons-Related");
+                    comboBox3.Items.Add("Sexual Misconduct");
+                    break;
+            }
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string severity = comboBox1.Text;
+            string category = comboBox3.Text;
+            dataGridView24.Rows.Clear();
+
+            string selectQuery = @$"SELECT * FROM disciplinary_list WHERE category = @category AND severity = @severity";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand selectCommand = new MySqlCommand(selectQuery, connection))
+                    {
+                        selectCommand.Parameters.AddWithValue("@severity", severity);
+                        selectCommand.Parameters.AddWithValue("@category", category);
+                        using (MySqlDataReader reader = selectCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string issues = reader["issue"].ToString();
+                                string[] dataArray = issues.Split('|');
+                                foreach (string x in dataArray)
+                                {
+                                    dataGridView24.Rows.Add(x);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                catch
+                {
+                    MessageBox.Show("An error occurred while loading issues.");
+                }
+
+            }
+        }
+
+        private void dataGridView24_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView24.Rows[e.RowIndex];
+
+                string issue = row.Cells[0].Value?.ToString() ?? "";
+
+                bool matchFound = false;
+                foreach (DataGridViewRow dgv23Row in dataGridView23.Rows)
+                {
+                    if (dgv23Row.IsNewRow)
+                        continue;
+
+                    string cellValue = dgv23Row.Cells[2].Value?.ToString() ?? "";
+                    if (cellValue.Equals(issue, StringComparison.OrdinalIgnoreCase))
+                    {
+                        matchFound = true;
+                        break;
+                    }
+                }
+
+                if (matchFound)
+                {
+                    MessageBox.Show($"Issue \"{issue}\" is already applied!");
+                }
+                else
+                {
+                    dataGridView23.Rows.Add(comboBox3.Text, comboBox1.Text, issue);
+                }
+            }
+        }
+
+        private void dataGridView23_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                dataGridView23.Rows.RemoveAt(e.RowIndex);
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            List<string> data = new List<string>();
+            List<string> categList = new List<string>();
+            List<int> categCount = new List<int>();
+
+            data.Clear();
+            categList.Clear();
+            categCount.Clear();
+
+            // Collect data from DataGridView23
+            foreach (DataGridViewRow row in dataGridView23.Rows)
+            {
+                if (row.IsNewRow) continue; // skip empty rows
+
+                string category = row.Cells[0].Value?.ToString() ?? "";
+                string severity = row.Cells[1].Value?.ToString() ?? "";
+                string issue = row.Cells[2].Value?.ToString() ?? "";
+
+                if (!string.IsNullOrWhiteSpace(category))
+                {
+                    string entry = $"{category}|{severity}|{issue}";
+                    data.Add(entry);
+
+                    if (!categList.Contains(category))
+                    {
+                        categList.Add(category);
+                    }
+                }
+            }
+
+            // Get offence count for each category
+            foreach (string item in categList)
+            {
+                string offenceQuery = @"
+                    SELECT MAX(offence_no) AS count
+                    FROM disciplinary_records
+                    WHERE student_pk = @stuPK AND category = @category
+                    LIMIT 1
+                ";
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        using (MySqlCommand selectCommand = new MySqlCommand(offenceQuery, connection))
+                        {
+                            selectCommand.Parameters.AddWithValue("@stuPK", label68.Text);
+                            selectCommand.Parameters.AddWithValue("@category", item);
+
+                            using (MySqlDataReader reader = selectCommand.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    int currentMax = int.Parse(reader["count"].ToString());
+                                    int offenceCount = currentMax + 1;
+                                    categCount.Add(offenceCount);
+                                }
+                                else
+                                {
+                                    categCount.Add(1);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //MessageBox.Show("An error occurred while loading offence count:" + ex.Message);
+                        categCount.Add(1); // fallback
+                    }
+                }
+            }
+
+            // Insert data into disciplinary_records
+            int totalRowsInserted = 0;
+            foreach (string x in data)
+            {
+                string[] dataArray = x.Split('|');
+                int catIndex = categList.IndexOf(dataArray[0]);
+                int issCount = categCount[catIndex];
+
+                string insertData = @"
+                    INSERT INTO `disciplinary_records` (
+                        `student_pk`,
+                        `category`,
+                        `severity`,
+                        `issue`,
+                        `comments`,
+                        `offence_no`,
+                        `gs_pk`
+                    )
+                    VALUES (
+                        @spk,
+                        @cat,
+                        @sev,
+                        @iss,
+                        @com,
+                        @off,
+                        @gsPK
+                    )
+                ";
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    using (MySqlCommand command = new MySqlCommand(insertData, connection))
+                    {
+                        command.Parameters.AddWithValue("@spk", label68.Text);
+                        command.Parameters.AddWithValue("@cat", dataArray[0]);
+                        command.Parameters.AddWithValue("@sev", dataArray[1]);
+                        command.Parameters.AddWithValue("@iss", dataArray[2]);
+                        command.Parameters.AddWithValue("@com", richTextBox1.Text);
+                        command.Parameters.AddWithValue("@off", issCount);
+                        command.Parameters.AddWithValue("@gsPK", label73.Text);
+
+                        try
+                        {
+                            connection.Open();
+                            int rowsInserted = command.ExecuteNonQuery();
+                            totalRowsInserted += rowsInserted;
+                            Debug.WriteLine($"{rowsInserted} row(s) inserted.");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error: " + ex.Message);
+                            Debug.WriteLine("Error: " + ex.Message);
+                        }
+                    }
+                }
+            }
+
+            MessageBox.Show($"{totalRowsInserted} row(s) inserted.");
+            data.Clear();
+            categList.Clear();
+            categCount.Clear();
+        }
+
+        private void discDisplayStu(string sPk, string subPK)
+        {
+            dataGridView25.Rows.Clear();
+            string offenceQuery = @"
+                    SELECT dr_pk, category, severity, issue FROM disciplinary_records
+                    WHERE student_pk = @stuPK AND gs_pk = @gs_pk
+                ";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand selectCommand = new MySqlCommand(offenceQuery, connection))
+                    {
+                        selectCommand.Parameters.AddWithValue("@stuPK", sPk);
+                        selectCommand.Parameters.AddWithValue("@gs_pk", subPK);
+
+                        using (MySqlDataReader reader = selectCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string PK = reader["dr_pk"].ToString();
+                                string Category = reader["category"].ToString();
+                                string Severity = reader["severity"].ToString();
+                                string Issue = reader["issue"].ToString();
+
+                                dataGridView25.Rows.Add(PK, Category, Severity, Issue);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dataGridView25.Rows.Add("N/a", "N/a", "No Records");
+                    //categCount.Add(1);
+                }
+            }
+        }
+
+        private void dataGridView25_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            richTextBox2.Clear();
+            dataGridView25.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView25.Rows[e.RowIndex];
+                var pkValue = row.Cells[0].Value;
+                if (pkValue != null)
+                {
+                    string offenceQuery = @"
+                    SELECT comment FROM disciplinary_records
+                    WHERE dr_pk = @dr_pk
+                ";
+
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            connection.Open();
+
+                            using (MySqlCommand selectCommand = new MySqlCommand(offenceQuery, connection))
+                            {
+                                selectCommand.Parameters.AddWithValue("@dr_pk", pkValue);
+
+                                using (MySqlDataReader reader = selectCommand.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        richTextBox2.Text = reader["comment"].ToString();
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            dataGridView25.Rows.Add("N/a", "N/a", "No Records");
+                            //categCount.Add(1);
+                        }
+                    }
                 }
             }
         }
