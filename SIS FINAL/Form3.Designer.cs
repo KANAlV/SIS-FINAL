@@ -67,6 +67,7 @@
             comboBox4 = new ComboBox();
             label15 = new Label();
             panel1 = new Panel();
+            checkBox1 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -183,6 +184,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(textBox5);
             groupBox1.Controls.Add(comboBox2);
@@ -220,6 +222,7 @@
             // 
             textBox5.Location = new Point(442, 104);
             textBox5.Name = "textBox5";
+            textBox5.ReadOnly = true;
             textBox5.Size = new Size(140, 23);
             textBox5.TabIndex = 39;
             // 
@@ -452,6 +455,17 @@
             panel1.Size = new Size(805, 37);
             panel1.TabIndex = 44;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(590, 106);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(46, 19);
+            checkBox1.TabIndex = 42;
+            checkBox1.Text = "Edit";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -513,5 +527,6 @@
         private ComboBox comboBox4;
         private Label label15;
         private Panel panel1;
+        private CheckBox checkBox1;
     }
 }

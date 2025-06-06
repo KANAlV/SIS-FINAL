@@ -60,9 +60,11 @@ namespace SIS_FINAL
                     command.Parameters.AddWithValue("@middle_name", textBox3.Text);
                     command.Parameters.AddWithValue("@suffix", textBox4.Text);
                     command.Parameters.AddWithValue("@gender", comboBox1.Text);
+                    string gsGrd = null;
                     if (comboBox2.SelectedValue != null)
                     {
                         command.Parameters.AddWithValue("@gs", comboBox2.SelectedValue.ToString());
+                        gsGrd = comboBox2.SelectedValue.ToString();
                     }
                     else
                     {
@@ -120,15 +122,16 @@ namespace SIS_FINAL
                                     {
                                         string insertGradesQuery = @"
                                         INSERT INTO grades
-                                        (student_pk, subject_pk)
+                                        (student_pk, subject_pk, gs_pk)
                                         VALUES
-                                        (@students_pk, @subject_pk);
+                                        (@students_pk, @subject_pk, @gs_pk);
                                     ";
 
                                         using (MySqlCommand command3 = new MySqlCommand(insertGradesQuery, connection))
                                         {
                                             command3.Parameters.AddWithValue("@students_pk", studentPK);
                                             command3.Parameters.AddWithValue("@subject_pk", subPK);
+                                            command3.Parameters.AddWithValue("@gs_pk", gsGrd);
 
                                             int rowsInserted3 = command3.ExecuteNonQuery();
                                             this.Close();
@@ -198,7 +201,7 @@ namespace SIS_FINAL
 
         private void getStuCount()
         {
-            string query = "SELECT MAX(students_no) FROM `students`";
+            string query = "SELECT MAX(students_no) FROM students";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -208,11 +211,17 @@ namespace SIS_FINAL
                         connection.Open();
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            while (reader.Read())
+                            if (reader.Read())
                             {
-                                int grdSecPK = int.Parse(reader["students_no"].ToString());
-                                grdSecPK++;
-                                textBox5.Text = grdSecPK.ToString();
+                                // handle NULL (no records yet)
+                                long studentCount = 100000000000;
+                                if (!reader.IsDBNull(0))
+                                {
+                                    studentCount = long.Parse(reader[0].ToString());
+                                }
+
+                                ++studentCount;
+                                textBox5.Text = studentCount.ToString();
                             }
                         }
                     }
@@ -277,6 +286,18 @@ namespace SIS_FINAL
                 }
             }
             return null;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                textBox5.ReadOnly = false;
+            }
+            else
+            {
+                textBox5.ReadOnly = true;
+            }
         }
     }
 }

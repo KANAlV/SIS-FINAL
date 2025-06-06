@@ -67,6 +67,7 @@
             textBox1 = new TextBox();
             label7 = new Label();
             label9 = new Label();
+            checkBox1 = new CheckBox();
             panel1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -329,6 +330,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(textBox5);
             groupBox1.Controls.Add(comboBox2);
@@ -453,6 +455,17 @@
             label9.TabIndex = 25;
             label9.Text = "Gender:*";
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(588, 108);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(46, 19);
+            checkBox1.TabIndex = 48;
+            checkBox1.Text = "Edit";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -514,5 +527,6 @@
         private TextBox textBox1;
         private Label label7;
         private Label label9;
+        private CheckBox checkBox1;
     }
 }

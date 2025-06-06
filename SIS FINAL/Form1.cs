@@ -2,7 +2,9 @@ using MySql.Data.MySqlClient;
 using Mysqlx.Resultset;
 using MySqlX.XDevAPI.Relational;
 using System.Data;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SIS_FINAL
@@ -59,6 +61,8 @@ namespace SIS_FINAL
             dataGridView19.MultiSelect = false;
             dataGridView20.RowHeadersVisible = false;
             dataGridView20.MultiSelect = false;
+            dataGridView21.RowHeadersVisible = false;
+            dataGridView21.MultiSelect = false;
             foreach (DataGridViewColumn column in dataGridView2.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -442,6 +446,7 @@ namespace SIS_FINAL
                         students.`grade-sec_pk`,
                         `grade-section`.`grade-sec`,
                         `grade-section`.`section_name`,
+                        `grade-section`.`subject_pk`,
                         guardian.surname AS guardian_surname,
                         guardian.first_name AS guardian_first_name,
                         guardian.middle_name AS guardian_middle_name,
@@ -467,6 +472,7 @@ namespace SIS_FINAL
                                 {
                                     // student data
                                     string stuPK = reader["student_pk"].ToString();
+                                    string subject_pk = reader["subject_pk"].ToString();
                                     label31.Text = reader["student_pk"].ToString();
                                     label24.Text = reader["students_no"].ToString();
                                     label4.Text = reader["surname"].ToString();
@@ -499,6 +505,15 @@ namespace SIS_FINAL
                                     subjectQuery(dataGridView6);
                                     dataGridView2.ClearSelection();
 
+                                    //Grade
+                                    dataGridView21.Rows.Clear();
+                                    string[] dataArray = subject_pk.Split(',');
+                                    foreach (string x in dataArray)
+                                    {
+                                        gradeSummary(stuPK, x, reader["grade-sec_pk"].ToString());
+                                    }
+                                    dataGridView21.ClearSelection();
+
                                     // === Image loading ===
                                     if (reader["photo"] != DBNull.Value)
                                     {
@@ -512,6 +527,9 @@ namespace SIS_FINAL
                                     {
                                         pictureBox1.Image = null; // clear if no photo
                                     }
+
+
+
                                 }
                             }
                         }
@@ -520,6 +538,142 @@ namespace SIS_FINAL
                             MessageBox.Show("Error: " + ex.Message);
                         }
                     }
+                }
+
+            }
+        }
+
+        private void gradeSummary(string stuPk, string subPk, string gsG)
+        {
+            string selectGrdQuery = @$"
+                SELECT grades.*,
+                    subjects.subject_name
+                FROM grades
+                LEFT JOIN subjects 
+                    ON grades.subject_pk = subjects.subject_pk
+                WHERE grades.student_pk = @stuPk
+                    AND grades.subject_pk = @subPk
+                    AND grades.gs_pk = @gsG
+            ";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand selectGrdCommand = new MySqlCommand(selectGrdQuery, connection))
+                    {
+                        selectGrdCommand.Parameters.AddWithValue("@stuPk", stuPk);
+                        selectGrdCommand.Parameters.AddWithValue("@subPk", subPk);
+                        selectGrdCommand.Parameters.AddWithValue("@gsG", gsG);
+                        using (MySqlDataReader readerGrd = selectGrdCommand.ExecuteReader())
+                        {
+                            if (readerGrd.Read())
+                            {
+                                // Parse weights from the reader
+                                string subName = readerGrd["subject_name"].ToString();
+                                double.TryParse(readerGrd["WW"]?.ToString(), out double ww);
+                                double.TryParse(readerGrd["PT"]?.ToString(), out double pt);
+                                double.TryParse(readerGrd["QE"]?.ToString(), out double qe);
+                                ww /= 100;
+                                pt /= 100;
+                                qe /= 100;
+
+                                textBox5.Text = readerGrd["WW"].ToString();
+                                textBox6.Text = readerGrd["PT"].ToString();
+                                textBox7.Text = readerGrd["QE"].ToString();
+
+                                // List of columns and their associated controls
+                                var columns = new (string Column, DataGridView DGV)[]
+                                {
+                                    ("WW_1", dataGridView8),
+                                    ("PT_1", dataGridView10),
+                                    ("QE_1", dataGridView11),
+                                    ("WW_2", dataGridView14),
+                                    ("PT_2", dataGridView13),
+                                    ("QE_2", dataGridView12),
+                                    ("WW_3", dataGridView17),
+                                    ("PT_3", dataGridView16),
+                                    ("QE_3", dataGridView15),
+                                    ("WW_4", dataGridView20),
+                                    ("PT_4", dataGridView19),
+                                    ("QE_4", dataGridView18)
+                                };
+
+                                // Store intermediate results for weighted totals
+                                double[] wwGrades = new double[4];
+                                double[] ptGrades = new double[4];
+                                double[] qeGrades = new double[4];
+
+                                foreach (var (column, dgv) in columns)
+                                {
+                                    string cellData = readerGrd[column]?.ToString();
+
+                                    if (!string.IsNullOrWhiteSpace(cellData))
+                                    {
+                                        loadCell(cellData, dgv);
+
+                                        double grade = Math.Round(computeGrade(cellData), 2);
+
+                                        // Determine which index to store
+                                        int index = int.Parse(column.Substring(3)) - 1;
+
+                                        if (column.StartsWith("WW_"))
+                                        {
+                                            wwGrades[index] = grade;
+                                        }
+                                        else if (column.StartsWith("PT_"))
+                                        {
+                                            ptGrades[index] = grade;
+                                        }
+                                        else if (column.StartsWith("QE_"))
+                                        {
+                                            qeGrades[index] = grade;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        dgv.Rows.Clear();
+                                    }
+                                }
+                                string c1 = null, c2 = null, c3 = null, c4 = null;
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    double weightedTotal = (wwGrades[i] * ww) + (ptGrades[i] * pt) + (qeGrades[i] * qe);
+                                    string formattedTotal = $"{Math.Round(weightedTotal, 2):F2}%";
+                                    switch (i)
+                                    {
+                                        case 0: c1 = formattedTotal; break;
+                                        case 1: c2 = formattedTotal; break;
+                                        case 2: c3 = formattedTotal; break;
+                                        case 3: c4 = formattedTotal; break;
+                                    }
+                                }
+                                double total = 0;
+                                int count = 0;
+                                foreach (string c in new[] { c1, c2, c3, c4 })
+                                {
+                                    if (!string.IsNullOrWhiteSpace(c))
+                                    {
+                                        if (double.TryParse(c.TrimEnd('%'), out double val))
+                                        {
+                                            total += val;
+                                            count++;
+                                        }
+                                    }
+                                }
+                                double avg = count > 0 ? total / count : 0;
+
+                                dataGridView21.Rows.Add(subName, c1, c2, c3, c4, $"{avg:F2}%");
+                            }
+                        }
+                    }
+                }
+
+                catch
+                {
+                    MessageBox.Show("An error occurred while loading grades.");
                 }
 
             }
@@ -950,6 +1104,8 @@ namespace SIS_FINAL
 
                 // Assuming PK is in the first column (index 0)
                 this.dgv7 = int.Parse(row.Cells[0].Value.ToString());
+                label62.Visible = true;
+                label62.Text = $"{row.Cells[2].Value.ToString()}, {row.Cells[3].Value.ToString()}";
                 if (this.dgv9 != 0)
                 {
                     loadGrades();
@@ -966,6 +1122,8 @@ namespace SIS_FINAL
 
                 // Assuming PK is in the first column (index 0)
                 this.dgv9 = int.Parse(row.Cells[0].Value.ToString());
+                label65.Visible = true;
+                label65.Text = row.Cells[2].Value.ToString();
                 if (this.dgv7 != 0)
                 {
                     loadGrades();
@@ -1232,6 +1390,61 @@ namespace SIS_FINAL
             // Join all rows with commas
             string result = string.Join(",", rowData);
             return result;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                textBox5.ReadOnly = false;
+                textBox6.ReadOnly = false;
+                textBox7.ReadOnly = false;
+            }
+            else
+            {
+                textBox5.ReadOnly = true;
+                textBox6.ReadOnly = true;
+                textBox7.ReadOnly = true;
+            }
+        }
+
+        private void isAlphaNumerical(object sender, EventArgs e)
+        {
+            System.Windows.Forms.TextBox tb = sender as System.Windows.Forms.TextBox;
+            if (tb != null)
+            {
+                int selectionStart = tb.SelectionStart;
+                string filteredText = Regex.Replace(tb.Text, @"[^0-9]", "");
+                if (tb.Text != filteredText)
+                {
+                    tb.Text = filteredText;
+                    tb.SelectionStart = Math.Min(selectionStart, tb.Text.Length);
+                }
+            }
+        }
+
+        private void dataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is System.Windows.Forms.TextBox textBox)
+            {
+                // Remove any previously attached event handler to avoid duplication
+                textBox.TextChanged -= TextBox_TextChanged_FilterNumbers;
+                textBox.TextChanged += TextBox_TextChanged_FilterNumbers;
+            }
+        }
+
+        private void TextBox_TextChanged_FilterNumbers(object sender, EventArgs e)
+        {
+            if (sender is System.Windows.Forms.TextBox textBox)
+            {
+                int selectionStart = textBox.SelectionStart;
+                string filteredText = Regex.Replace(textBox.Text, @"[^0-9]", "");
+                if (textBox.Text != filteredText)
+                {
+                    textBox.Text = filteredText;
+                    textBox.SelectionStart = Math.Min(selectionStart, textBox.Text.Length);
+                }
+            }
         }
     }
 }

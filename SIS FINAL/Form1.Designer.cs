@@ -72,6 +72,13 @@
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             dataGridView2 = new DataGridView();
             grades = new TabPage();
+            dataGridView21 = new DataGridView();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            Column4 = new DataGridViewTextBoxColumn();
+            Column5 = new DataGridViewTextBoxColumn();
+            Column6 = new DataGridViewTextBoxColumn();
             Discip_Rec = new TabPage();
             dataGridView1 = new DataGridView();
             student_index = new DataGridViewTextBoxColumn();
@@ -118,6 +125,11 @@
             g_s = new DataGridViewTextBoxColumn();
             sec_name = new DataGridViewTextBoxColumn();
             tabPage5 = new TabPage();
+            checkBox1 = new CheckBox();
+            label64 = new Label();
+            label65 = new Label();
+            label63 = new Label();
+            label62 = new Label();
             label44 = new Label();
             button8 = new Button();
             textBox7 = new TextBox();
@@ -134,6 +146,7 @@
             label49 = new Label();
             label48 = new Label();
             label47 = new Label();
+            label46 = new Label();
             dataGridView11 = new DataGridView();
             dataGridViewTextBoxColumn13 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn14 = new DataGridViewTextBoxColumn();
@@ -198,7 +211,6 @@
             textBox5 = new TextBox();
             label39 = new Label();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            label46 = new Label();
             tabControl1.SuspendLayout();
             general.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -207,6 +219,8 @@
             schedule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            grades.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView21).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl2.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -716,12 +730,67 @@
             // 
             // grades
             // 
+            grades.Controls.Add(dataGridView21);
             grades.Location = new Point(4, 24);
             grades.Name = "grades";
             grades.Size = new Size(310, 358);
             grades.TabIndex = 2;
             grades.Text = "Grades";
             grades.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView21
+            // 
+            dataGridView21.AllowUserToAddRows = false;
+            dataGridView21.AllowUserToDeleteRows = false;
+            dataGridView21.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView21.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5, Column6 });
+            dataGridView21.Location = new Point(3, 5);
+            dataGridView21.Name = "dataGridView21";
+            dataGridView21.ReadOnly = true;
+            dataGridView21.Size = new Size(304, 350);
+            dataGridView21.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Column1.HeaderText = "Subject";
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            Column2.HeaderText = "Q1";
+            Column2.Name = "Column2";
+            Column2.ReadOnly = true;
+            Column2.Width = 50;
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "Q2";
+            Column3.Name = "Column3";
+            Column3.ReadOnly = true;
+            Column3.Width = 50;
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Q3";
+            Column4.Name = "Column4";
+            Column4.ReadOnly = true;
+            Column4.Width = 50;
+            // 
+            // Column5
+            // 
+            Column5.HeaderText = "Q4";
+            Column5.Name = "Column5";
+            Column5.ReadOnly = true;
+            Column5.Width = 50;
+            // 
+            // Column6
+            // 
+            Column6.HeaderText = "Final";
+            Column6.Name = "Column6";
+            Column6.ReadOnly = true;
+            Column6.Width = 50;
             // 
             // Discip_Rec
             // 
@@ -1201,6 +1270,11 @@
             // 
             // tabPage5
             // 
+            tabPage5.Controls.Add(checkBox1);
+            tabPage5.Controls.Add(label64);
+            tabPage5.Controls.Add(label65);
+            tabPage5.Controls.Add(label63);
+            tabPage5.Controls.Add(label62);
             tabPage5.Controls.Add(label44);
             tabPage5.Controls.Add(button8);
             tabPage5.Controls.Add(textBox7);
@@ -1226,11 +1300,64 @@
             tabPage5.Text = "Grades";
             tabPage5.UseVisualStyleBackColor = true;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(678, 13);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(104, 19);
+            checkBox1.TabIndex = 45;
+            checkBox1.Text = "Edit Weighting";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // label64
+            // 
+            label64.AutoSize = true;
+            label64.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label64.Location = new Point(329, 31);
+            label64.Name = "label64";
+            label64.Size = new Size(57, 17);
+            label64.TabIndex = 44;
+            label64.Text = "Subject:";
+            // 
+            // label65
+            // 
+            label65.AutoSize = true;
+            label65.Font = new Font("Segoe UI", 10F);
+            label65.Location = new Point(392, 31);
+            label65.Name = "label65";
+            label65.Size = new Size(53, 19);
+            label65.TabIndex = 43;
+            label65.Text = "label65";
+            label65.Visible = false;
+            // 
+            // label63
+            // 
+            label63.AutoSize = true;
+            label63.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label63.Location = new Point(329, 12);
+            label63.Name = "label63";
+            label63.Size = new Size(60, 17);
+            label63.TabIndex = 42;
+            label63.Text = "Student:";
+            // 
+            // label62
+            // 
+            label62.AutoSize = true;
+            label62.Font = new Font("Segoe UI", 10F);
+            label62.Location = new Point(392, 12);
+            label62.Name = "label62";
+            label62.Size = new Size(53, 19);
+            label62.TabIndex = 41;
+            label62.Text = "label62";
+            label62.Visible = false;
+            // 
             // label44
             // 
             label44.AutoSize = true;
             label44.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label44.Location = new Point(745, 335);
+            label44.Location = new Point(738, 80);
             label44.Name = "label44";
             label44.Size = new Size(24, 21);
             label44.TabIndex = 17;
@@ -1248,10 +1375,12 @@
             // 
             // textBox7
             // 
-            textBox7.Location = new Point(666, 335);
+            textBox7.Location = new Point(659, 80);
             textBox7.Name = "textBox7";
+            textBox7.ReadOnly = true;
             textBox7.Size = new Size(69, 23);
             textBox7.TabIndex = 16;
+            textBox7.TextChanged += isAlphaNumerical;
             // 
             // comboBox2
             // 
@@ -1267,7 +1396,7 @@
             // 
             label45.AutoSize = true;
             label45.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label45.Location = new Point(657, 315);
+            label45.Location = new Point(650, 60);
             label45.Name = "label45";
             label45.Size = new Size(109, 17);
             label45.TabIndex = 15;
@@ -1323,7 +1452,7 @@
             // 
             label42.AutoSize = true;
             label42.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label42.Location = new Point(578, 335);
+            label42.Location = new Point(571, 80);
             label42.Name = "label42";
             label42.Size = new Size(24, 21);
             label42.TabIndex = 13;
@@ -1336,10 +1465,10 @@
             tabControl3.Controls.Add(tabPage8);
             tabControl3.Controls.Add(tabPage9);
             tabControl3.Enabled = false;
-            tabControl3.Location = new Point(325, 6);
+            tabControl3.Location = new Point(325, 118);
             tabControl3.Name = "tabControl3";
             tabControl3.SelectedIndex = 0;
-            tabControl3.Size = new Size(461, 306);
+            tabControl3.Size = new Size(461, 252);
             tabControl3.TabIndex = 7;
             // 
             // tabPage6
@@ -1354,7 +1483,7 @@
             tabPage6.Location = new Point(4, 24);
             tabPage6.Name = "tabPage6";
             tabPage6.Padding = new Padding(3);
-            tabPage6.Size = new Size(453, 278);
+            tabPage6.Size = new Size(453, 224);
             tabPage6.TabIndex = 0;
             tabPage6.Text = "1st Quarter";
             tabPage6.UseVisualStyleBackColor = true;
@@ -1364,7 +1493,7 @@
             label49.Anchor = AnchorStyles.Top;
             label49.AutoSize = true;
             label49.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label49.Location = new Point(42, 224);
+            label49.Location = new Point(47, 176);
             label49.Name = "label49";
             label49.Size = new Size(35, 17);
             label49.TabIndex = 44;
@@ -1376,7 +1505,7 @@
             label48.Anchor = AnchorStyles.Top;
             label48.AutoSize = true;
             label48.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label48.Location = new Point(202, 224);
+            label48.Location = new Point(207, 176);
             label48.Name = "label48";
             label48.Size = new Size(35, 17);
             label48.TabIndex = 43;
@@ -1388,12 +1517,24 @@
             label47.Anchor = AnchorStyles.Top;
             label47.AutoSize = true;
             label47.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label47.Location = new Point(359, 224);
+            label47.Location = new Point(364, 176);
             label47.Name = "label47";
             label47.Size = new Size(35, 17);
             label47.TabIndex = 42;
             label47.Text = "##%";
             label47.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label46
+            // 
+            label46.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label46.AutoSize = true;
+            label46.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label46.Location = new Point(392, 204);
+            label46.Name = "label46";
+            label46.Size = new Size(55, 17);
+            label46.TabIndex = 41;
+            label46.Text = "##.##%";
+            label46.TextAlign = ContentAlignment.MiddleRight;
             // 
             // dataGridView11
             // 
@@ -1401,8 +1542,9 @@
             dataGridView11.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn13, dataGridViewTextBoxColumn14 });
             dataGridView11.Location = new Point(328, 6);
             dataGridView11.Name = "dataGridView11";
-            dataGridView11.Size = new Size(109, 215);
+            dataGridView11.Size = new Size(109, 164);
             dataGridView11.TabIndex = 14;
+            dataGridView11.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn13
             // 
@@ -1422,8 +1564,9 @@
             dataGridView10.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn11, dataGridViewTextBoxColumn12 });
             dataGridView10.Location = new Point(173, 6);
             dataGridView10.Name = "dataGridView10";
-            dataGridView10.Size = new Size(110, 215);
+            dataGridView10.Size = new Size(110, 164);
             dataGridView10.TabIndex = 10;
+            dataGridView10.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn11
             // 
@@ -1443,8 +1586,9 @@
             dataGridView8.Columns.AddRange(new DataGridViewColumn[] { Total, Score });
             dataGridView8.Location = new Point(16, 6);
             dataGridView8.Name = "dataGridView8";
-            dataGridView8.Size = new Size(114, 215);
+            dataGridView8.Size = new Size(114, 164);
             dataGridView8.TabIndex = 6;
+            dataGridView8.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // Total
             // 
@@ -1470,7 +1614,7 @@
             tabPage7.Location = new Point(4, 24);
             tabPage7.Name = "tabPage7";
             tabPage7.Padding = new Padding(3);
-            tabPage7.Size = new Size(453, 278);
+            tabPage7.Size = new Size(453, 224);
             tabPage7.TabIndex = 1;
             tabPage7.Text = "2nd Quarter";
             tabPage7.UseVisualStyleBackColor = true;
@@ -1480,7 +1624,7 @@
             label50.Anchor = AnchorStyles.Top;
             label50.AutoSize = true;
             label50.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label50.Location = new Point(45, 224);
+            label50.Location = new Point(47, 176);
             label50.Name = "label50";
             label50.Size = new Size(35, 17);
             label50.TabIndex = 49;
@@ -1492,7 +1636,7 @@
             label51.Anchor = AnchorStyles.Top;
             label51.AutoSize = true;
             label51.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label51.Location = new Point(205, 224);
+            label51.Location = new Point(207, 176);
             label51.Name = "label51";
             label51.Size = new Size(35, 17);
             label51.TabIndex = 48;
@@ -1504,7 +1648,7 @@
             label52.Anchor = AnchorStyles.Top;
             label52.AutoSize = true;
             label52.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label52.Location = new Point(362, 224);
+            label52.Location = new Point(364, 176);
             label52.Name = "label52";
             label52.Size = new Size(35, 17);
             label52.TabIndex = 47;
@@ -1516,7 +1660,7 @@
             label53.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label53.AutoSize = true;
             label53.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label53.Location = new Point(385, 248);
+            label53.Location = new Point(392, 204);
             label53.Name = "label53";
             label53.Size = new Size(55, 17);
             label53.TabIndex = 46;
@@ -1529,8 +1673,9 @@
             dataGridView14.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn19, dataGridViewTextBoxColumn20 });
             dataGridView14.Location = new Point(16, 6);
             dataGridView14.Name = "dataGridView14";
-            dataGridView14.Size = new Size(113, 215);
+            dataGridView14.Size = new Size(113, 164);
             dataGridView14.TabIndex = 18;
+            dataGridView14.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn19
             // 
@@ -1550,8 +1695,9 @@
             dataGridView12.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn15, dataGridViewTextBoxColumn16 });
             dataGridView12.Location = new Point(328, 6);
             dataGridView12.Name = "dataGridView12";
-            dataGridView12.Size = new Size(111, 215);
+            dataGridView12.Size = new Size(111, 164);
             dataGridView12.TabIndex = 26;
+            dataGridView12.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn15
             // 
@@ -1571,8 +1717,9 @@
             dataGridView13.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn17, dataGridViewTextBoxColumn18 });
             dataGridView13.Location = new Point(173, 6);
             dataGridView13.Name = "dataGridView13";
-            dataGridView13.Size = new Size(110, 215);
+            dataGridView13.Size = new Size(110, 164);
             dataGridView13.TabIndex = 22;
+            dataGridView13.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn17
             // 
@@ -1598,7 +1745,7 @@
             tabPage8.Location = new Point(4, 24);
             tabPage8.Name = "tabPage8";
             tabPage8.Padding = new Padding(3);
-            tabPage8.Size = new Size(453, 278);
+            tabPage8.Size = new Size(453, 224);
             tabPage8.TabIndex = 2;
             tabPage8.Text = "3rd Quarter";
             tabPage8.UseVisualStyleBackColor = true;
@@ -1608,7 +1755,7 @@
             label54.Anchor = AnchorStyles.Top;
             label54.AutoSize = true;
             label54.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label54.Location = new Point(45, 224);
+            label54.Location = new Point(47, 176);
             label54.Name = "label54";
             label54.Size = new Size(35, 17);
             label54.TabIndex = 49;
@@ -1620,7 +1767,7 @@
             label55.Anchor = AnchorStyles.Top;
             label55.AutoSize = true;
             label55.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label55.Location = new Point(205, 224);
+            label55.Location = new Point(207, 176);
             label55.Name = "label55";
             label55.Size = new Size(35, 17);
             label55.TabIndex = 48;
@@ -1632,7 +1779,7 @@
             label56.Anchor = AnchorStyles.Top;
             label56.AutoSize = true;
             label56.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label56.Location = new Point(362, 224);
+            label56.Location = new Point(364, 176);
             label56.Name = "label56";
             label56.Size = new Size(35, 17);
             label56.TabIndex = 47;
@@ -1644,7 +1791,7 @@
             label57.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label57.AutoSize = true;
             label57.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label57.Location = new Point(385, 248);
+            label57.Location = new Point(392, 204);
             label57.Name = "label57";
             label57.Size = new Size(55, 17);
             label57.TabIndex = 46;
@@ -1657,8 +1804,9 @@
             dataGridView16.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn23, dataGridViewTextBoxColumn24 });
             dataGridView16.Location = new Point(173, 6);
             dataGridView16.Name = "dataGridView16";
-            dataGridView16.Size = new Size(110, 215);
+            dataGridView16.Size = new Size(110, 164);
             dataGridView16.TabIndex = 22;
+            dataGridView16.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn23
             // 
@@ -1678,8 +1826,9 @@
             dataGridView17.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn25, dataGridViewTextBoxColumn26 });
             dataGridView17.Location = new Point(16, 6);
             dataGridView17.Name = "dataGridView17";
-            dataGridView17.Size = new Size(113, 215);
+            dataGridView17.Size = new Size(113, 164);
             dataGridView17.TabIndex = 18;
+            dataGridView17.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn25
             // 
@@ -1699,8 +1848,9 @@
             dataGridView15.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn21, dataGridViewTextBoxColumn22 });
             dataGridView15.Location = new Point(328, 6);
             dataGridView15.Name = "dataGridView15";
-            dataGridView15.Size = new Size(110, 215);
+            dataGridView15.Size = new Size(110, 164);
             dataGridView15.TabIndex = 26;
+            dataGridView15.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn21
             // 
@@ -1726,7 +1876,7 @@
             tabPage9.Location = new Point(4, 24);
             tabPage9.Name = "tabPage9";
             tabPage9.Padding = new Padding(3);
-            tabPage9.Size = new Size(453, 278);
+            tabPage9.Size = new Size(453, 224);
             tabPage9.TabIndex = 3;
             tabPage9.Text = "4th Quarter";
             tabPage9.UseVisualStyleBackColor = true;
@@ -1736,7 +1886,7 @@
             label58.Anchor = AnchorStyles.Top;
             label58.AutoSize = true;
             label58.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label58.Location = new Point(42, 224);
+            label58.Location = new Point(47, 176);
             label58.Name = "label58";
             label58.Size = new Size(35, 17);
             label58.TabIndex = 49;
@@ -1748,7 +1898,7 @@
             label59.Anchor = AnchorStyles.Top;
             label59.AutoSize = true;
             label59.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label59.Location = new Point(203, 224);
+            label59.Location = new Point(208, 176);
             label59.Name = "label59";
             label59.Size = new Size(35, 17);
             label59.TabIndex = 48;
@@ -1760,7 +1910,7 @@
             label60.Anchor = AnchorStyles.Top;
             label60.AutoSize = true;
             label60.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label60.Location = new Point(359, 224);
+            label60.Location = new Point(364, 176);
             label60.Name = "label60";
             label60.Size = new Size(35, 17);
             label60.TabIndex = 47;
@@ -1772,7 +1922,7 @@
             label61.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label61.AutoSize = true;
             label61.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label61.Location = new Point(382, 248);
+            label61.Location = new Point(387, 196);
             label61.Name = "label61";
             label61.Size = new Size(55, 17);
             label61.TabIndex = 46;
@@ -1785,8 +1935,9 @@
             dataGridView19.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn29, dataGridViewTextBoxColumn30 });
             dataGridView19.Location = new Point(173, 6);
             dataGridView19.Name = "dataGridView19";
-            dataGridView19.Size = new Size(110, 215);
+            dataGridView19.Size = new Size(110, 164);
             dataGridView19.TabIndex = 22;
+            dataGridView19.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn29
             // 
@@ -1806,8 +1957,9 @@
             dataGridView20.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn31, dataGridViewTextBoxColumn32 });
             dataGridView20.Location = new Point(16, 6);
             dataGridView20.Name = "dataGridView20";
-            dataGridView20.Size = new Size(111, 215);
+            dataGridView20.Size = new Size(111, 164);
             dataGridView20.TabIndex = 18;
+            dataGridView20.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn31
             // 
@@ -1827,8 +1979,9 @@
             dataGridView18.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn27, dataGridViewTextBoxColumn28 });
             dataGridView18.Location = new Point(328, 6);
             dataGridView18.Name = "dataGridView18";
-            dataGridView18.Size = new Size(110, 215);
+            dataGridView18.Size = new Size(110, 164);
             dataGridView18.TabIndex = 26;
+            dataGridView18.EditingControlShowing += dataGridView_EditingControlShowing;
             // 
             // dataGridViewTextBoxColumn27
             // 
@@ -1844,16 +1997,18 @@
             // 
             // textBox6
             // 
-            textBox6.Location = new Point(509, 335);
+            textBox6.Location = new Point(502, 80);
             textBox6.Name = "textBox6";
+            textBox6.ReadOnly = true;
             textBox6.Size = new Size(69, 23);
             textBox6.TabIndex = 12;
+            textBox6.TextChanged += isAlphaNumerical;
             // 
             // label43
             // 
             label43.AutoSize = true;
             label43.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label43.Location = new Point(496, 315);
+            label43.Location = new Point(489, 60);
             label43.Name = "label43";
             label43.Size = new Size(123, 17);
             label43.TabIndex = 11;
@@ -1884,7 +2039,7 @@
             // 
             label41.AutoSize = true;
             label41.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label41.Location = new Point(423, 331);
+            label41.Location = new Point(421, 80);
             label41.Name = "label41";
             label41.Size = new Size(24, 21);
             label41.TabIndex = 9;
@@ -1932,32 +2087,22 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(354, 331);
+            textBox5.Location = new Point(352, 80);
             textBox5.Name = "textBox5";
+            textBox5.ReadOnly = true;
             textBox5.Size = new Size(69, 23);
             textBox5.TabIndex = 8;
+            textBox5.TextChanged += isAlphaNumerical;
             // 
             // label39
             // 
             label39.AutoSize = true;
             label39.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label39.Location = new Point(354, 311);
+            label39.Location = new Point(352, 60);
             label39.Name = "label39";
             label39.Size = new Size(93, 17);
             label39.TabIndex = 7;
             label39.Text = "Writen Works";
-            // 
-            // label46
-            // 
-            label46.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label46.AutoSize = true;
-            label46.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label46.Location = new Point(382, 248);
-            label46.Name = "label46";
-            label46.Size = new Size(55, 17);
-            label46.TabIndex = 41;
-            label46.Text = "##.##%";
-            label46.TextAlign = ContentAlignment.MiddleRight;
             // 
             // Form1
             // 
@@ -1980,6 +2125,8 @@
             schedule.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView6).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            grades.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView21).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabControl2.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -2190,5 +2337,17 @@
         private Label label60;
         private Label label61;
         private Label label46;
+        private DataGridView dataGridView21;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column3;
+        private DataGridViewTextBoxColumn Column4;
+        private DataGridViewTextBoxColumn Column5;
+        private DataGridViewTextBoxColumn Column6;
+        private Label label64;
+        private Label label65;
+        private Label label63;
+        private Label label62;
+        private CheckBox checkBox1;
     }
 }

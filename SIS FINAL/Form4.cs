@@ -298,5 +298,17 @@ namespace SIS_FINAL
                 }
             }
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                textBox5.ReadOnly = false;
+            }
+            else
+            {
+                textBox5.ReadOnly = true;
+            }
+        }
     }
 }
